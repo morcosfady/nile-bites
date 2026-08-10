@@ -223,6 +223,10 @@
   border: 6px solid var(--black);
   box-shadow: var(--shadow-md);
 }
+@media (max-width: 900px) {
+  /* Stacked, a 3:4 portrait eats a whole screen on its own — go landscape. */
+  .story-media__main.media--3x4 { aspect-ratio: 4 / 3; }
+}
 @media (max-width: 640px) { .story-media__inset { display: none; } }
 
 .badge-est {
@@ -476,6 +480,9 @@
       radial-gradient(ellipse at 25% 80%, rgba(212, 130, 40, .2), transparent 60%);
   }
   .oven-panel img { filter: brightness(.8) saturate(1.05); }
+  /* Hard-stop the copy inside the dark zone. Without the % cap, a 900px panel
+     lets a 44rem body run to ~84% width, where the scrim has already faded. */
+  .oven-panel__body { max-width: min(44rem, 62%); }
 }
 
 @media (max-width: 899px) {
