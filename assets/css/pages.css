@@ -38,7 +38,10 @@
   inset: 0;
   z-index: -1;
   background:
-    linear-gradient(180deg, rgba(8, 8, 8, .88) 0%, rgba(8, 8, 8, .48) 34%, rgba(8, 8, 8, .74) 72%, rgba(8, 8, 8, .97) 100%),
+    /* Centre pool: the headline sits here, and the photograph behind it can be
+       anything — it has to carry contrast on its own. */
+    radial-gradient(ellipse 78% 54% at 50% 48%, rgba(6, 6, 6, .68), transparent 72%),
+    linear-gradient(180deg, rgba(8, 8, 8, .9) 0%, rgba(8, 8, 8, .6) 34%, rgba(8, 8, 8, .8) 72%, rgba(8, 8, 8, .97) 100%),
     radial-gradient(ellipse 80% 62% at 50% 46%, rgba(212, 175, 55, .13), transparent 70%);
 }
 
