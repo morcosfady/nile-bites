@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 28" width="240" height="28" aria-hidden="true">
+  <g fill="none" stroke="#D4AF37" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" opacity=".85">
+    <path d="M0 4 H240 M0 24 H240" opacity=".45"/>
+    <!-- ankh -->
+    <g transform="translate(20 14)">
+      <ellipse cx="0" cy="-4" rx="3.4" ry="4"/>
+      <path d="M0 0 V8 M-4.5 3 H4.5"/>
+    </g>
+    <!-- water ripple (n) -->
+    <path d="M44 12 q3 -4 6 0 t6 0 t6 0"/>
+    <!-- eye of horus, simplified -->
+    <g transform="translate(80 14)">
+      <path d="M-7 -1 q7 -6 14 0 q-7 6 -14 0 Z"/>
+      <circle cx="0" cy="-1" r="1.7" fill="#D4AF37" stroke="none"/>
+      <path d="M4 3 q-1 5 -5 5 M-3 3 l-2 6"/>
+    </g>
+    <!-- feather of maat -->
+    <g transform="translate(112 14)">
+      <path d="M0 8 C -4 2 -3 -6 0 -9 C 3 -6 4 2 0 8 Z"/>
+    </g>
+    <!-- lotus -->
+    <g transform="translate(140 16)">
+      <path d="M0 6 C -3.5 0 -3.5 -5 0 -8 C 3.5 -5 3.5 0 0 6 Z"/>
+      <path d="M0 6 C -8 2 -10 -4 -9 -8 C -5 -6 -2 -1 0 6 Z"/>
+      <path d="M0 6 C 8 2 10 -4 9 -8 C 5 -6 2 -1 0 6 Z"/>
+    </g>
+    <!-- scarab-esque sun disk with wings -->
+    <g transform="translate(176 14)">
+      <circle cx="0" cy="0" r="3.2"/>
+      <path d="M-4 0 q-6 -3 -10 0 q6 3 10 0 M4 0 q6 -3 10 0 q-6 3 -10 0"/>
+    </g>
+    <!-- reed -->
+    <g transform="translate(212 14)">
+      <path d="M0 8 V-6 M0 -6 q3 -2 4 -4 M0 -6 q-3 -2 -4 -4"/>
+    </g>
+  </g>
+</svg>

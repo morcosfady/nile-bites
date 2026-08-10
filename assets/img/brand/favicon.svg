@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Nile Bites">
+  <defs>
+    <linearGradient id="fvGold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F1DFA4"/>
+      <stop offset="50%" stop-color="#D4AF37"/>
+      <stop offset="100%" stop-color="#8C6239"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="#111111"/>
+  <rect x="2.5" y="2.5" width="59" height="59" rx="12" fill="none" stroke="url(#fvGold)" stroke-width="1.2" opacity=".55"/>
+  <g transform="translate(32 18)">
+    <circle cx="0" cy="-2" r="6" fill="none" stroke="url(#fvGold)" stroke-width="1.5"/>
+    <circle cx="0" cy="-2" r="2.6" fill="url(#fvGold)"/>
+    <path d="M0 30 C -6.5 18 -6.5 7 0 1 C 6.5 7 6.5 18 0 30 Z" fill="none" stroke="url(#fvGold)" stroke-width="1.9" stroke-linejoin="round"/>
+    <path d="M0 30 C -15 21 -19 9 -17 1 C -10 4 -3.5 14 0 30 Z" fill="none" stroke="url(#fvGold)" stroke-width="1.6" stroke-linejoin="round"/>
+    <path d="M0 30 C 15 21 19 9 17 1 C 10 4 3.5 14 0 30 Z" fill="none" stroke="url(#fvGold)" stroke-width="1.6" stroke-linejoin="round"/>
+  </g>
+</svg>

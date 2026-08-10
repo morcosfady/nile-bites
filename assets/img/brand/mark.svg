@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="Nile Bites lotus mark">
+  <defs>
+    <linearGradient id="mkGold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F1DFA4"/>
+      <stop offset="45%" stop-color="#D4AF37"/>
+      <stop offset="100%" stop-color="#8C6239"/>
+    </linearGradient>
+  </defs>
+  <g transform="translate(50 30)">
+    <circle cx="0" cy="-4" r="11" fill="none" stroke="url(#mkGold)" stroke-width="1.7"/>
+    <circle cx="0" cy="-4" r="4.6" fill="url(#mkGold)"/>
+    <path d="M0 46 C -10 28 -10 10 0 0 C 10 10 10 28 0 46 Z" fill="none" stroke="url(#mkGold)" stroke-width="2" stroke-linejoin="round"/>
+    <path d="M0 46 C -23 33 -30 14 -27 1 C -15 6 -5 22 0 46 Z" fill="none" stroke="url(#mkGold)" stroke-width="1.7" stroke-linejoin="round"/>
+    <path d="M0 46 C 23 33 30 14 27 1 C 15 6 5 22 0 46 Z" fill="none" stroke="url(#mkGold)" stroke-width="1.7" stroke-linejoin="round"/>
+    <path d="M0 46 C -36 40 -46 25 -46 11 C -31 14 -13 29 0 46 Z" fill="none" stroke="url(#mkGold)" stroke-width="1.35" stroke-linejoin="round" opacity=".8"/>
+    <path d="M0 46 C 36 40 46 25 46 11 C 31 14 13 29 0 46 Z" fill="none" stroke="url(#mkGold)" stroke-width="1.35" stroke-linejoin="round" opacity=".8"/>
+  </g>
+</svg>

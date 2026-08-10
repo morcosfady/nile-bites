@@ -1,0 +1,15 @@
+{
+  "name": "Nile Bites — Egyptian Kitchen & Bakery",
+  "short_name": "Nile Bites",
+  "description": "Authentic Egyptian breakfast, artisan bakery and traditional Middle Eastern cuisine in Zamalek, Cairo.",
+  "start_url": "/index.html",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#111111",
+  "theme_color": "#111111",
+  "lang": "en",
+  "categories": ["food", "restaurant", "bakery"],
+  "icons": [
+    { "src": "assets/img/brand/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}
