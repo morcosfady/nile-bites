@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 60" aria-hidden="true">
+  <defs>
+    <linearGradient id="adGold" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#8c6239" stop-opacity="0"/>
+      <stop offset="28%" stop-color="#d4af37"/>
+      <stop offset="50%" stop-color="#f1dfa4"/>
+      <stop offset="72%" stop-color="#d4af37"/>
+      <stop offset="100%" stop-color="#8c6239" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <g fill="none" stroke="url(#adGold)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+    <!-- rails -->
+    <path d="M0 30 H118 M202 30 H320"/>
+    <!-- lotus buds pendant from the rails -->
+    <path d="M96 30 v6 M96 36 c-4 3 -5 8 -3 11 c2 -3 3 -8 3 -11 c0 3 1 8 3 11 c2 -3 1 -8 -3 -11" opacity=".85"/>
+    <path d="M224 30 v6 M224 36 c-4 3 -5 8 -3 11 c2 -3 3 -8 3 -11 c0 3 1 8 3 11 c2 -3 1 -8 -3 -11" opacity=".85"/>
+    <!-- central ankh -->
+    <g transform="translate(160 30)">
+      <ellipse cx="0" cy="-12" rx="7.5" ry="9" stroke-width="1.5"/>
+      <path d="M0 -3 V20" stroke-width="1.5"/>
+      <path d="M-11 4 H11" stroke-width="1.5"/>
+    </g>
+    <!-- flanking feathers of Maat -->
+    <path d="M132 30 c-3 -6 -2 -13 0 -16 c2 3 3 10 0 16 Z" opacity=".8"/>
+    <path d="M188 30 c-3 -6 -2 -13 0 -16 c2 3 3 10 0 16 Z" opacity=".8"/>
+  </g>
+</svg>

@@ -1,0 +1,311 @@
+/* ==========================================================================
+   NILE BITES — Pharaonic theme layer
+   Loads after main.css / pages.css and attaches to classes those files already
+   define, so the theme lands on every page without touching page markup.
+
+   Rule of the layer: gold line-work, low opacity, generous negative space.
+   Every ornament here is drawn from temple architecture — kheker cresting,
+   papyrus columns, the winged disk, cartouches, lotus lattice. Nothing is
+   illustrative and nothing is coloured; it reads as carved stone and gold leaf.
+
+   1. Stone & papyrus ground     5. Cartouche labels
+   2. Carved typography          6. Kheker friezes
+   3. Temple dividers            7. Columns
+   4. Inlaid cards & buttons     8. Header, footer, hero
+   ========================================================================== */
+
+:root {
+  --glyph: rgba(212, 175, 55, .55);
+  --carve-dark: rgba(0, 0, 0, .82);
+  --carve-light: rgba(255, 238, 190, .16);
+}
+
+/* 1. STONE & PAPYRUS GROUND ---------------------------------------------- */
+body::before {
+  /* Fine sandstone grain plus horizontal masonry seams, over the original
+     warm pools. Fixed, so the page reads as one carved surface. */
+  background-image:
+    url("../img/papyrus-texture.svg"),
+    repeating-linear-gradient(180deg,
+      rgba(255, 255, 255, .012) 0 1px,
+      transparent 1px 92px),
+    radial-gradient(circle at 18% 12%, rgba(140, 98, 57, .18), transparent 42%),
+    radial-gradient(circle at 84% 78%, rgba(212, 175, 55, .08), transparent 46%);
+  background-size: 400px 400px, auto, auto, auto;
+  background-repeat: repeat, repeat, no-repeat, no-repeat;
+  opacity: .55;
+  mix-blend-mode: overlay;
+}
+
+/* A second, unblended layer keeps the grain visible on near-black areas
+   where `overlay` collapses to nothing. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: url("../img/papyrus-texture.svg") repeat 0 0 / 400px 400px;
+  opacity: .045;
+}
+
+/* 2. CARVED TYPOGRAPHY ---------------------------------------------------- */
+h1, h2, h3,
+.stat__num,
+.dish__price,
+.menu-row__price {
+  /* Light from above, shadow below — the reading the eye gives to an incised
+     inscription rather than printed type. */
+  text-shadow:
+    0 1px 0 var(--carve-dark),
+    0 -1px 0 var(--carve-light);
+}
+
+h1, h2 { letter-spacing: .012em; }
+
+/* Gold-leaf fill for the largest display type */
+.hero h1,
+.page-hero h1,
+.cta-band h2,
+.section-head--center h2 {
+  background: linear-gradient(178deg,
+    #fff4d2 0%, var(--gold-light) 22%, var(--gold) 52%, #b8912e 78%, var(--bronze) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: none;
+  filter: drop-shadow(0 2px 1px rgba(0, 0, 0, .55));
+}
+/* The hero already carries its own gradient span — don't double-apply. */
+.hero h1 .gold-text { filter: none; }
+
+.eyebrow { font-weight: 400; }
+
+/* 3. TEMPLE DIVIDERS ------------------------------------------------------ */
+.rule {
+  /* Replaces the plain hairline with the ankh-and-lotus lintel. */
+  height: 60px;
+  background: url("../img/ankh-divider.svg") center / auto 60px no-repeat;
+  opacity: .9;
+}
+.rule::before, .rule::after { content: none; }
+.rule__mark { display: none; }
+
+/* Winged sun disk — the strongest ornament in the set, so it is used sparingly:
+   once above the page's principal heading. */
+.winged-disk {
+  display: block;
+  width: min(560px, 72%);
+  margin: 0 auto 1.6rem;
+  height: 96px;
+  background: url("../img/winged-disk.svg") center / contain no-repeat;
+  opacity: .82;
+  pointer-events: none;
+}
+.winged-disk--sm { width: min(380px, 62%); height: 66px; opacity: .6; }
+
+/* Existing hieroglyph band gets more presence */
+.glyph-band { opacity: .42; }
+
+/* 4. INLAID CARDS & BUTTONS ---------------------------------------------- */
+.card {
+  /* Gold hairline set in from the edge — stone inlay, not a second border. */
+  box-shadow: inset 0 0 0 1px rgba(212, 175, 55, .07);
+}
+.card::after {
+  content: "";
+  position: absolute;
+  inset: 7px;
+  border: 1px solid rgba(212, 175, 55, .13);
+  border-radius: calc(var(--r-lg) - 7px);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .5s var(--ease);
+  z-index: 3;
+}
+.card:hover::after { opacity: 1; }
+/* The quote card already spends its ::after on the opening mark. */
+.quote::after { content: none; }
+
+.feature__icon {
+  /* Sits in a carved gold roundel */
+  box-shadow:
+    inset 0 1px 0 rgba(255, 238, 190, .12),
+    0 1px 0 rgba(0, 0, 0, .5);
+}
+
+.btn { box-shadow: inset 0 1px 0 rgba(255, 238, 190, .07); }
+.btn--gold {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .38),
+    inset 0 -1px 0 rgba(120, 84, 20, .38),
+    0 10px 30px rgba(212, 175, 55, .2);
+}
+
+/* 5. CARTOUCHE LABELS ----------------------------------------------------- */
+.cartouche {
+  display: inline-flex;
+  align-items: center;
+  gap: .8rem;
+  padding: .55rem 1.5rem;
+  border: 1px solid rgba(212, 175, 55, .38);
+  border-radius: var(--r-pill);
+  position: relative;
+  font-size: var(--step--2);
+  letter-spacing: .34em;
+  text-transform: uppercase;
+  color: var(--gold);
+  background: rgba(212, 175, 55, .05);
+}
+.cartouche::before, .cartouche::after {
+  /* The vertical bar that seals a royal cartouche */
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 2px;
+  height: 58%;
+  transform: translateY(-50%);
+  background: linear-gradient(var(--gold-light), var(--bronze));
+  border-radius: 2px;
+}
+.cartouche::before { left: -5px; }
+.cartouche::after { right: -5px; }
+
+/* 6. KHEKER FRIEZES ------------------------------------------------------- */
+.section--stone,
+.cta-band {
+  position: relative;
+}
+.section--stone::before,
+.cta-band::after {
+  /* Palace-facade cresting along the top edge of the darker bands */
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 44px;
+  background: url("../img/kheker-frieze.svg") repeat-x center top / auto 44px;
+  opacity: .16;
+  pointer-events: none;
+  z-index: 0;
+}
+/* .cta-band::after previously carried the lotus tile — move that to ::before,
+   which is free on this element. */
+.cta-band::before {
+  background:
+    radial-gradient(ellipse 70% 100% at 50% 0%, rgba(212, 175, 55, .16), transparent 65%),
+    url("../img/pattern-lotus.svg") repeat center / 200px,
+    linear-gradient(180deg, #131211, #0a0a0a);
+}
+
+.site-footer::after {
+  content: "";
+  position: absolute;
+  inset: 2px 0 auto;
+  height: 44px;
+  background: url("../img/kheker-frieze.svg") repeat-x center top / auto 44px;
+  opacity: .14;
+  pointer-events: none;
+}
+
+/* 7. COLUMNS -------------------------------------------------------------- */
+.cta-band {
+  /* Papyrus-umbel columns frame the page's closing call, the way a temple
+     doorway frames the sanctuary beyond it. */
+  --col: url("../img/column.svg");
+}
+.cta-band .shell { position: relative; }
+.cta-band .shell::before,
+.cta-band .shell::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 74px;
+  height: min(420px, 88%);
+  background: var(--col) center / contain no-repeat;
+  opacity: .3;
+  pointer-events: none;
+}
+.cta-band .shell::before { left: -104px; }
+.cta-band .shell::after  { right: -104px; transform: translateY(-50%) scaleX(-1); }
+@media (max-width: 1180px) {
+  .cta-band .shell::before, .cta-band .shell::after { display: none; }
+}
+
+/* 8. HEADER, FOOTER, HERO ------------------------------------------------- */
+.site-header.is-stuck {
+  border-bottom-color: rgba(212, 175, 55, .3);
+  box-shadow:
+    0 1px 0 rgba(212, 175, 55, .1),
+    0 10px 40px rgba(0, 0, 0, .55);
+}
+
+.brand__mark { filter: drop-shadow(0 1px 2px rgba(0, 0, 0, .7)); }
+
+.lotus-field {
+  /* The new lattice is denser, so it carries at a lower opacity */
+  background-size: 240px;
+  opacity: .05;
+}
+
+.hero__ornament {
+  /* Swap the lone mark for the winged disk on the hero flanks */
+  width: 300px;
+  height: 70px;
+  background: url("../img/winged-disk.svg") center / contain no-repeat;
+  opacity: .09;
+}
+.hero__ornament--l { left: -70px; top: 18%; }
+.hero__ornament--r { right: -70px; bottom: 14%; }
+
+.page-hero { border-bottom: 0; }
+.page-hero::before {
+  /* Kheker crest along the foot of every interior page banner */
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  z-index: 1;
+  height: 40px;
+  background: url("../img/kheker-frieze.svg") repeat-x center bottom / auto 40px;
+  opacity: .3;
+  transform: scaleY(-1);
+  pointer-events: none;
+}
+
+.marquee {
+  background:
+    linear-gradient(90deg, rgba(212, 175, 55, .06), transparent 40%, rgba(212, 175, 55, .06));
+  border-block-color: rgba(212, 175, 55, .22);
+}
+.marquee__item::after {
+  /* Lotus bud between entries rather than a plain dot */
+  width: 14px;
+  height: 14px;
+  background: url("../img/brand/mark.svg") center / contain no-repeat;
+  border-radius: 0;
+  opacity: .5;
+}
+
+/* Timeline nodes become sun disks */
+.tl-item::before {
+  background: radial-gradient(circle at 50% 35%, var(--gold-light), var(--gold) 45%, var(--bronze));
+  border-color: rgba(255, 238, 190, .5);
+  box-shadow: 0 0 0 5px rgba(212, 175, 55, .12), 0 0 14px rgba(212, 175, 55, .35);
+}
+.timeline::before { background: linear-gradient(180deg, transparent, rgba(212, 175, 55, .4) 8%, rgba(212, 175, 55, .4) 92%, transparent); }
+
+/* Menu section heads get a carved lintel */
+.menu-group__head { border-bottom-color: rgba(212, 175, 55, .26); }
+.menu-group__head::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 -1px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--gold), transparent 55%);
+  opacity: .5;
+}
+.menu-group__head { position: relative; }
+
+@media (prefers-reduced-motion: reduce) {
+  .card::after { transition: none; }
+}

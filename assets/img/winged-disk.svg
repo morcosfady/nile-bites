@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 150" aria-hidden="true">
+  <defs>
+    <linearGradient id="wdGold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f1dfa4"/>
+      <stop offset="48%" stop-color="#d4af37"/>
+      <stop offset="100%" stop-color="#8c6239"/>
+    </linearGradient>
+  </defs>
+  <g fill="none" stroke="url(#wdGold)" stroke-linecap="round" stroke-linejoin="round">
+
+    <!-- sun disk -->
+    <circle cx="320" cy="66" r="21" stroke-width="2"/>
+    <circle cx="320" cy="66" r="9.5" fill="url(#wdGold)" stroke="none"/>
+
+    <!-- uraeus cobras flanking the disk -->
+    <path d="M303 78 c-7 4 -9 12 -5 18 c3 5 9 5 12 1 c2 -3 1 -7 -2 -8" stroke-width="1.5"/>
+    <path d="M337 78 c7 4 9 12 5 18 c-3 5 -9 5 -12 1 c-2 -3 -1 -7 2 -8" stroke-width="1.5"/>
+
+    <!-- LEFT WING — four feather rows, each row longer and lower -->
+    <g stroke-width="1.4">
+      <path d="M298 58 C258 46 214 42 168 46 C124 50 84 58 46 70" />
+      <path d="M298 66 C256 58 208 56 160 61 C114 66 72 74 34 84"/>
+      <path d="M299 74 C258 70 212 71 166 77 C122 83 82 91 46 100"/>
+      <path d="M300 82 C264 82 224 85 184 91 C146 97 112 104 82 112"/>
+    </g>
+    <!-- left feather ribs -->
+    <g stroke-width="1" opacity=".8">
+      <path d="M268 50 L262 62 M240 48 L233 61 M212 47 L204 61 M184 48 L175 62 M156 51 L146 65 M128 54 L117 69 M100 59 L88 74 M72 64 L60 80"/>
+      <path d="M262 62 L256 74 M233 61 L226 74 M204 61 L196 75 M175 62 L166 77 M146 65 L136 80 M117 69 L105 85 M88 74 L76 90"/>
+      <path d="M256 74 L252 85 M226 74 L221 86 M196 75 L190 88 M166 77 L158 91 M136 80 L127 94 M105 85 L95 100"/>
+    </g>
+
+    <!-- RIGHT WING — mirrored -->
+    <g stroke-width="1.4">
+      <path d="M342 58 C382 46 426 42 472 46 C516 50 556 58 594 70"/>
+      <path d="M342 66 C384 58 432 56 480 61 C526 66 568 74 606 84"/>
+      <path d="M341 74 C382 70 428 71 474 77 C518 83 558 91 594 100"/>
+      <path d="M340 82 C376 82 416 85 456 91 C494 97 528 104 558 112"/>
+    </g>
+    <g stroke-width="1" opacity=".8">
+      <path d="M372 50 L378 62 M400 48 L407 61 M428 47 L436 61 M456 48 L465 62 M484 51 L494 65 M512 54 L523 69 M540 59 L552 74 M568 64 L580 80"/>
+      <path d="M378 62 L384 74 M407 61 L414 74 M436 61 L444 75 M465 62 L474 77 M494 65 L504 80 M523 69 L535 85 M552 74 L564 90"/>
+      <path d="M384 74 L388 85 M414 74 L419 86 M444 75 L450 88 M474 77 L482 91 M504 80 L513 94 M535 85 L545 100"/>
+    </g>
+  </g>
+</svg>

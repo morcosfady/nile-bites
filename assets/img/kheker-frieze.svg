@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 44" width="120" height="44" aria-hidden="true">
+  <!-- Kheker cresting: the bundled-reed frieze that crowns Egyptian palace and
+       temple walls. Tiles horizontally at 40px intervals. -->
+  <g fill="none" stroke="#d4af37" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+    <g id="kheker">
+      <!-- flared reed head -->
+      <path d="M20 4 C13 8 10 14 10.5 20 M20 4 C27 8 30 14 29.5 20"/>
+      <path d="M20 4 V20"/>
+      <!-- binding band -->
+      <path d="M11 21 H29 M11 25 H29"/>
+      <!-- shaft with three reeds -->
+      <path d="M14.5 26 V40 M20 26 V40 M25.5 26 V40"/>
+    </g>
+    <use href="#kheker" x="40"/>
+    <use href="#kheker" x="80"/>
+    <!-- base rail -->
+    <path d="M0 41.5 H120" opacity=".55"/>
+  </g>
+</svg>

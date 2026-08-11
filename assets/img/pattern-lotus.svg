@@ -1,27 +1,38 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160">
-  <g fill="none" stroke="#D4AF37" stroke-width="1" opacity=".5" stroke-linejoin="round">
-    <g transform="translate(40 40)">
-      <path d="M0 20 C -5 10 -5 0 0 -6 C 5 0 5 10 0 20 Z"/>
-      <path d="M0 20 C -12 14 -16 4 -14 -3 C -8 0 -3 8 0 20 Z"/>
-      <path d="M0 20 C 12 14 16 4 14 -3 C 8 0 3 8 0 20 Z"/>
-      <circle cx="0" cy="-11" r="3.4"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200" aria-hidden="true">
+  <!-- Alternating open lotus and closed bud linked by arcs — the classic
+       Egyptian ceiling and border lattice. Tiles seamlessly at 200px. -->
+  <g fill="none" stroke="#d4af37" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" opacity=".62">
+
+    <!-- linking arcs, row 1 -->
+    <path d="M0 50 q25 -26 50 0 t50 0 t50 0 t50 0" opacity=".45"/>
+    <!-- linking arcs, row 2 (offset) -->
+    <path d="M0 150 q25 -26 50 0 t50 0 t50 0 t50 0" opacity=".45"/>
+
+    <!-- open lotus, row 1 -->
+    <g id="lotusOpen" transform="translate(50 50)">
+      <path d="M0 26 C-6 14 -6 2 0 -6 C6 2 6 14 0 26 Z"/>
+      <path d="M0 26 C-15 18 -20 6 -18 -3 C-10 1 -4 12 0 26 Z"/>
+      <path d="M0 26 C15 18 20 6 18 -3 C10 1 4 12 0 26 Z"/>
+      <path d="M0 26 C-24 24 -31 14 -31 4 C-21 7 -9 16 0 26 Z" opacity=".7"/>
+      <path d="M0 26 C24 24 31 14 31 4 C21 7 9 16 0 26 Z" opacity=".7"/>
     </g>
-    <g transform="translate(120 120)">
-      <path d="M0 20 C -5 10 -5 0 0 -6 C 5 0 5 10 0 20 Z"/>
-      <path d="M0 20 C -12 14 -16 4 -14 -3 C -8 0 -3 8 0 20 Z"/>
-      <path d="M0 20 C 12 14 16 4 14 -3 C 8 0 3 8 0 20 Z"/>
-      <circle cx="0" cy="-11" r="3.4"/>
+    <use href="#lotusOpen" x="100"/>
+
+    <!-- closed bud, row 1 -->
+    <g id="lotusBud" transform="translate(100 50)">
+      <path d="M0 26 V10"/>
+      <path d="M0 10 C-7 4 -9 -6 -5 -13 C-2 -8 -1 -1 0 10 Z"/>
+      <path d="M0 10 C7 4 9 -6 5 -13 C2 -8 1 -1 0 10 Z"/>
+      <path d="M-4 12 H4"/>
     </g>
-    <g transform="translate(120 40) rotate(180)">
-      <path d="M0 20 C -5 10 -5 0 0 -6 C 5 0 5 10 0 20 Z"/>
-      <path d="M0 20 C -12 14 -16 4 -14 -3 C -8 0 -3 8 0 20 Z"/>
-      <path d="M0 20 C 12 14 16 4 14 -3 C 8 0 3 8 0 20 Z"/>
-    </g>
-    <g transform="translate(40 120) rotate(180)">
-      <path d="M0 20 C -5 10 -5 0 0 -6 C 5 0 5 10 0 20 Z"/>
-      <path d="M0 20 C -12 14 -16 4 -14 -3 C -8 0 -3 8 0 20 Z"/>
-      <path d="M0 20 C 12 14 16 4 14 -3 C 8 0 3 8 0 20 Z"/>
-    </g>
-    <path d="M80 0 V160 M0 80 H160" opacity=".25"/>
+    <use href="#lotusBud" x="100"/>
+    <use href="#lotusBud" x="-100"/>
+
+    <!-- row 2, phase-shifted so the tile reads as a woven lattice -->
+    <use href="#lotusOpen" x="50" y="100"/>
+    <use href="#lotusOpen" x="-50" y="100"/>
+    <use href="#lotusBud" x="0" y="100"/>
+    <use href="#lotusBud" x="100" y="100"/>
+    <use href="#lotusBud" x="-100" y="100"/>
   </g>
 </svg>
