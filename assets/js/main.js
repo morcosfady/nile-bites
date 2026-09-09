@@ -815,7 +815,7 @@
       });
     });
 
-    /* Reservation date floor = today */
+    /* Catering date floor = today */
     $$("input[type='date'][data-min-today]").forEach(function (input) {
       input.min = new Date().toISOString().split("T")[0];
     });
@@ -856,7 +856,7 @@
           toast("Please enter a valid email address");
           return;
         }
-        toast("Welcome to the table — check your inbox.");
+        toast("You are on the list — check your inbox.");
         form.reset();
       });
     });

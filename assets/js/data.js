@@ -205,19 +205,20 @@
   ];
 
   /* Testimonials ------------------------------------------------------ */
+  /* PLACEHOLDER reviews - invented, not real customers. Replace before launch. */
   var REVIEWS = [
-    { name: "Yasmine Farouk", role: "Cairo", stars: 5,
-      text: "I have eaten foul my whole life and I have never had it like this. The bread arrives so hot you have to pass it between your hands. It tastes like my grandmother's kitchen, plated like a Paris dining room." },
-    { name: "James Whitfield", role: "Food & Travel Quarterly", stars: 5,
-      text: "The feteer alone justifies the journey. Thirty layers, pulled by hand in front of you, and a room that understands that luxury is warmth — not distance." },
-    { name: "Nour El-Deeb", role: "Regular since opening", stars: 5,
-      text: "We booked for six and stayed four hours. The Pharaoh's Table is the most complete account of Egyptian cooking I have been served anywhere, and the staff never once made us feel rushed." },
-    { name: "Dina Mahfouz", role: "Alexandria", stars: 5,
-      text: "The bakery counter is dangerous. I came for one croissant and left with a gold box of petit fours and a kilo of kahk. Everything still warm when I got home." },
-    { name: "Omar Sabry", role: "Zamalek", stars: 5,
-      text: "Om Ali served bubbling, konafa cut at the pass, karkadeh cold enough to hurt. The details are relentless. This is what an Egyptian fine-dining room should have looked like all along." },
-    { name: "Claire Bennett", role: "London", stars: 5,
-      text: "We were three tourists who wandered in for breakfast and returned twice in five days. Warm, generous, unhurried — and the coffee is genuinely the best I have had." }
+    { name: "Yasmine F.", role: "Plano", stars: 5,
+      text: "I have eaten feteer my whole life and I was not expecting this in Texas. It arrived still hot enough that the ghee ran when we pulled it apart. My mother asked who made it." },
+    { name: "Mark Whitfield", role: "Uptown", stars: 5,
+      text: "Ordered the savoury for a Sunday lunch and there was nothing left twenty minutes later. Boxed whole, still steaming, and the layers actually separate the way they should." },
+    { name: "Nour El-Deeb", role: "Ordered for a church event", stars: 5,
+      text: "Forty people, half sweet and half savoury, and they walked me through the whole spread beforehand. Everything turned up on time and warm. I have already booked them again." },
+    { name: "Dina M.", role: "Frisco", stars: 5,
+      text: "The black honey and tahini is dangerous. I ordered one to try and put in a second order before we had finished the first." },
+    { name: "Omar Sabry", role: "Deep Ellum", stars: 5,
+      text: "Proper baladi ghee, proper layers, none of the shortcuts. This is the first time since I moved here that feteer has tasted like home rather than an imitation of it." },
+    { name: "Claire Bennett", role: "Irving", stars: 5,
+      text: "Easy to order, they confirmed everything on WhatsApp, and it arrived exactly when they said. The reheating notes in the box were a nice touch." }
   ];
 
   global.NB_DATA = { CATEGORIES: CATEGORIES, MENU: MENU, GALLERY: GALLERY, REVIEWS: REVIEWS };
