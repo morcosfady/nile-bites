@@ -1,5 +1,5 @@
 /* ==========================================================================
-   NILE BITES — Content data
+   PHARAOH'S BITES — Content data
    Single source of truth for menu, gallery and testimonials. Swap the `img`
    values for your own photography (see README) — nothing else changes.
    ========================================================================== */
@@ -32,7 +32,7 @@
     { id: "taameya", cat: "breakfast", name: "Taameya of Green Herbs", ar: "طعمية", price: 120, featured: true,
       desc: "Split fava and a fistful of dill, parsley and coriander, fried to order in a crust of sesame. Served with pickled turnip.",
       tags: ["Vegan"], img: U + "1601050690597-df0568f70950" + Q },
-    { id: "shakshuka", cat: "breakfast", name: "Shakshuka Nile Bites", ar: "شكشوكة", price: 185, featured: true,
+    { id: "shakshuka", cat: "breakfast", name: "House Shakshuka", ar: "شكشوكة", price: 185, featured: true,
       desc: "Slow-cooked tomato, roasted red pepper and smoked paprika, two farm eggs baked in the cast iron, aged white cheese folded through.",
       tags: ["Chef's Pick", "Vegetarian"], img: U + "1590412200988-a436970781fa" + Q },
     { id: "eggs-basterma", cat: "breakfast", name: "Eggs & Basterma", ar: "بيض بالبسطرمة", price: 195,

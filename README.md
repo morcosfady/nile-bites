@@ -1,6 +1,6 @@
-# Nile Bites — Egyptian Restaurant &amp; Artisan Bakery
+# Pharaoh's Bites — Egyptian Restaurant &amp; Artisan Bakery
 
-A luxury restaurant website for **Nile Bites**, a family-owned Egyptian kitchen and artisan
+A luxury restaurant website for **Pharaoh's Bites**, a family-owned Egyptian kitchen and artisan
 bakery. Dark, gold-accented, Pharaonic-inspired without a single cartoon pyramid — built as
 static HTML/CSS/JS with no build step and no dependencies.
 
@@ -86,8 +86,8 @@ HTML page and in the JSON-LD block in each `<head>`. Search and replace across t
 - `27 Abou El Feda Street, Zamalek` / `Cairo 11211`
 - `+20 2 2735 0100` and `tel:+20227350100`
 - `201005550142` (WhatsApp)
-- `hello@nilebites.com`, `events@nilebites.com`
-- `https://www.nilebites.com` (canonical + Open Graph URLs)
+- `hello@pharaohsbites.com`, `events@pharaohsbites.com`
+- `https://www.pharaohsbites.com` (canonical + Open Graph URLs)
 
 ## Photography — important
 
@@ -161,7 +161,7 @@ It's a static site — any host works. For **GitHub Pages**: push to `main`, the
 Settings → Pages → Source: *Deploy from a branch* → `main` / `root`.
 
 Before going live: replace the placeholder photography, update the business details and the
-`https://www.nilebites.com` canonical URLs, add `og-cover.jpg`, and connect the forms and
+`https://www.pharaohsbites.com` canonical URLs, add `og-cover.jpg`, and connect the forms and
 checkout to a real backend.
 
 ## Browser support

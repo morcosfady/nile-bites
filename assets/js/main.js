@@ -1,5 +1,5 @@
 /* ==========================================================================
-   NILE BITES — Interactions
+   PHARAOH'S BITES — Interactions
    No dependencies. Every module is a no-op when its markup is absent, so the
    same bundle serves every page.
    ========================================================================== */
