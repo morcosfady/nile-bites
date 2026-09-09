@@ -53,6 +53,55 @@
   filter: drop-shadow(0 6px 34px rgba(212, 175, 55, .3));
 }
 
+/* Hero lockup — set as live text rather than the logo SVG. An <img>-loaded SVG
+   is an isolated document with no access to the page's webfonts, so the Arabic
+   would fall back to a system face and stop matching the header. */
+.hero__wordmark {
+  display: grid;
+  justify-items: center;
+  gap: .55rem;
+  margin: 0 auto 1.9rem;
+}
+.hero__wordmark__mark {
+  width: clamp(54px, 6.5vw, 82px);
+  height: auto;
+  filter: drop-shadow(0 6px 26px rgba(212, 175, 55, .35));
+}
+.hero__wordmark__name {
+  font-family: var(--font-display);
+  font-size: clamp(2.05rem, 4.5vw, 3.45rem);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: .17em;
+  text-transform: uppercase;
+  /* Indent by one tracking step so the letter-spacing on the final glyph
+     doesn't push the word off-centre. */
+  text-indent: .17em;
+  background: linear-gradient(178deg, #fff4d2 0%, var(--gold-light) 24%, var(--gold) 54%, #b8912e 80%, var(--bronze) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 3px 16px rgba(0, 0, 0, .6));
+}
+.hero__wordmark__sub {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: .55em;
+  font-size: clamp(.6rem, .55rem + .3vw, .82rem);
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: var(--sand);
+  opacity: .9;
+  text-indent: .3em;
+}
+.hero__wordmark__sub i { font-style: normal; color: var(--gold); text-indent: 0; }
+.hero__wordmark__sub .ar { letter-spacing: 0; text-indent: 0; }
+@media (max-width: 420px) {
+  .hero__wordmark__sub { gap: .35em; letter-spacing: .2em; }
+}
+
 .hero h1 {
   font-size: var(--step-5);
   line-height: .98;
