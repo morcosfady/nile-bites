@@ -435,6 +435,7 @@ p { text-wrap: pretty; }
 }
 /* Arabic sets on a different baseline and needs its own face — Kufi keeps the
    geometric, inscription-like feel the Latin display face has. */
+.brand__sub i { font-style: normal; color: var(--gold); opacity: .75; }
 .ar {
   font-family: "Noto Kufi Arabic", "Segoe UI", Tahoma, sans-serif;
   font-size: 1.12em;
@@ -530,7 +531,7 @@ p { text-wrap: pretty; }
   /* Keep the wordmark readable on the narrowest phones. */
   .brand__name { font-size: 1.18rem; letter-spacing: .1em; }
   .brand__mark { width: 34px; height: 34px; }
-  .brand__sub .ar { display: none; }
+  .brand__sub .ar, .brand__sub i { display: none; }
   .brand__sub { gap: 0; }
   .brand__sub::before { content: none; }
 }
