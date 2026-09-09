@@ -267,13 +267,23 @@
     $$("[data-basket-count]").forEach(function (el) { el.textContent = n ? String(n) : "0"; });
   }
 
+  /* Pharaoh mark for house specials. `label` renders an accessible name once
+     per item; repeat marks elsewhere on the same card are decorative. */
+  function pharaoh(label) {
+    return '<img class="pharaoh-mark" src="assets/img/pharaoh-mark.svg" ' +
+           (label ? 'alt="House special"' : 'alt="" aria-hidden="true"') +
+           ' width="52" height="60" loading="lazy">';
+  }
+
   var SVG_HEART = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.6S3.8 15.3 3.8 9.6a4.6 4.6 0 0 1 8.2-2.8 4.6 4.6 0 0 1 8.2 2.8c0 5.7-8.2 11-8.2 11z"/></svg>';
   var SVG_STAR = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z"/></svg>';
 
   /* --- Card + row templates -------------------------------------------- */
   function dishCard(item, opts) {
     opts = opts || {};
-    var tag = item.tags && item.tags.length ? '<span class="tag">' + esc(item.tags[0]) + "</span>" : "";
+    var tag = item.special
+      ? '<span class="tag tag--special">' + pharaoh(false) + "House Special</span>"
+      : (item.tags && item.tags.length ? '<span class="tag">' + esc(item.tags[0]) + "</span>" : "");
     return '' +
       '<article class="card dish" data-reveal="scale">' +
         '<div class="media media--4x3">' + tag +
@@ -281,7 +291,8 @@
         "</div>" +
         '<div class="dish__body">' +
           '<div class="dish__top">' +
-            '<h3 class="dish__name">' + esc(item.name) + ' <span class="dish__ar" lang="ar" dir="rtl">' + esc(item.ar) + "</span></h3>" +
+            '<h3 class="dish__name">' + (item.special ? pharaoh(true) : "") + esc(item.name) +
+              ' <span class="dish__ar" lang="ar" dir="rtl">' + esc(item.ar) + "</span></h3>" +
             '<span class="dish__price">' + money(item.price) + "</span>" +
           "</div>" +
           '<p class="dish__desc">' + esc(item.desc) + "</p>" +
@@ -302,7 +313,7 @@
     return '' +
       '<div class="menu-row" data-reveal>' +
         '<div class="menu-row__top">' +
-          '<span class="menu-row__name">' + esc(item.name) + "</span>" +
+          '<span class="menu-row__name">' + (item.special ? pharaoh(true) : "") + esc(item.name) + "</span>" +
           '<span class="menu-row__dots" aria-hidden="true"></span>' +
           '<span class="menu-row__price">' + item.price + "</span>" +
         "</div>" +
@@ -404,7 +415,8 @@
       return '' +
         '<article class="order-item" data-cat="' + esc(item.cat) + '" data-reveal>' +
           '<div class="media media--1x1"><img data-src="' + esc(item.img) + '" alt="' + esc(item.name) + '" loading="lazy" decoding="async" width="200" height="200"></div>' +
-          "<div><h3>" + esc(item.name) + ' <span class="dish__ar" lang="ar" dir="rtl">' + esc(item.ar) + "</span></h3><p>" + esc(item.desc.slice(0, 96)) + "…</p></div>" +
+          "<div><h3>" + (item.special ? pharaoh(true) : "") + esc(item.name) +
+            ' <span class="dish__ar" lang="ar" dir="rtl">' + esc(item.ar) + "</span></h3><p>" + esc(item.desc.slice(0, 96)) + "…</p></div>" +
           '<div class="order-item__side">' +
             '<span class="order-item__price">' + money(item.price) + "</span>" +
             '<div class="flex gap-2 items-center">' +

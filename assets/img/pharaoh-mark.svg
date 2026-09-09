@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 60" role="img" aria-label="House special">
+  <defs>
+    <linearGradient id="phGold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F1DFA4"/>
+      <stop offset="45%" stop-color="#D4AF37"/>
+      <stop offset="100%" stop-color="#8C6239"/>
+    </linearGradient>
+  </defs>
+  <g fill="none" stroke="url(#phGold)" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round">
+
+    <!-- nemes headdress: crown, then the two lappets falling to the shoulders -->
+    <path d="M26 3 C15 3 9 11 9 20 L9 31 L4 50 L17 50 L19 36"/>
+    <path d="M26 3 C37 3 43 11 43 20 L43 31 L48 50 L35 50 L33 36"/>
+
+    <!-- brow band across the forehead -->
+    <path d="M12 19 H40" stroke-width="1.6"/>
+
+    <!-- face -->
+    <path d="M17 20 C17 33 20 41 26 41 C32 41 35 33 35 20" stroke-width="1.6"/>
+
+    <!-- eyes -->
+    <path d="M20.5 26 h3.4 M28.1 26 h3.4" stroke-width="1.5"/>
+
+    <!-- ceremonial beard -->
+    <path d="M23.5 41 L23.5 52 C23.5 54 28.5 54 28.5 52 L28.5 41" stroke-width="1.6"/>
+
+    <!-- uraeus cobra rearing from the brow -->
+    <path d="M26 19 C26 14 23 12 23.5 9 C24 6.5 27 6.5 27.5 9" stroke-width="1.5"/>
+    <circle cx="25.6" cy="6.2" r="2.1" fill="url(#phGold)" stroke="none"/>
+  </g>
+</svg>

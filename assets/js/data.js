@@ -1,7 +1,17 @@
 /* ==========================================================================
    PHARAOH'S BITES — Content data
-   Single source of truth for menu, gallery and testimonials. Swap the `img`
-   values for your own photography (see README) — nothing else changes.
+   Single source of truth for the menu, gallery and reviews.
+
+   MENU ITEM FIELDS
+     id       unique slug, used by the basket and favourites
+     cat      must match a CATEGORIES id below: mains | desserts | sides
+     name     English name shown on the card
+     ar       Arabic name, shown beside it
+     price    plain number, formatted by money() using NB_CONFIG.currency
+     special  true  -> the pharaoh mark is shown beside the item
+     desc     one or two sentences
+     tags     rendered as pills; vegan/vegetarian turn green, special turns gold
+     img      PLACEHOLDER photography. Swap these for the real photos.
    ========================================================================== */
 (function (global) {
   "use strict";
@@ -12,211 +22,145 @@
 
   /* Categories -------------------------------------------------------- */
   var CATEGORIES = [
-    { id: "breakfast", name: "Egyptian Breakfast", blurb: "The table Egypt wakes up to — slow-simmered foul, hand-fried taameya and bread pulled from the oven minutes before it reaches you." },
-    { id: "bakery",    name: "Fresh Bakery",       blurb: "Laminated, proofed and baked in-house from four in the morning. Butter, patience and nothing else." },
-    { id: "feteer",    name: "Feteer Meshaltet",   blurb: "Egypt's layered pastry, stretched paper-thin by hand and folded thirty times before it meets the stone." },
-    { id: "bread",     name: "Fresh Bread",        blurb: "Baladi, shamsi and semit — wheat, water, salt and a wood fire kept at 400°C all day." },
-    { id: "desserts",  name: "Oriental Desserts",  blurb: "Syrup-glossed, pistachio-strewn and cut to order. Sweetness with restraint." },
-    { id: "cuisine",   name: "Middle Eastern Cuisine", blurb: "Charcoal, herbs and the long braise — the dishes we serve when the table is full and the night is long." },
-    { id: "drinks",    name: "Traditional Drinks", blurb: "Karkadeh over crushed ice, mint tea in gilt glasses, and coffee ground to order on the rakwa." },
-    { id: "chef",      name: "Chef Specials",      blurb: "A short list, changed with the season and the market. Chef Hossam's own hand." },
-    { id: "kids",      name: "Kids Menu",          blurb: "Smaller plates, gentler spice — the same kitchen, the same standards." }
+    { id: "mains",    name: "The Main Table", blurb: "Feteer stretched by hand, and the baked trays an Egyptian table is built around. Everything here is made to order." },
+    { id: "soups",    name: "Soups",          blurb: "Simmered slowly and sent out hot in a sealed container." },
+    { id: "desserts", name: "Sweet",          blurb: "Syrup, nuts, cream and chocolate. Cut to order and boxed while still warm." },
+    { id: "sides",    name: "On the Side",    blurb: "What Egyptians actually put next to feteer — cheese, honey and tahini, nothing more complicated than that." },
+    { id: "drinks",   name: "Drinks",         blurb: "Made to order and sealed for the journey." }
   ];
 
   /* Menu -------------------------------------------------------------- */
   var MENU = [
-    /* --- Egyptian Breakfast --- */
-    { id: "foul-royal", cat: "breakfast", name: "Foul Medames Royale", ar: "فول مدمس", price: 8, featured: true,
-      desc: "Fava beans simmered overnight in a copper qidra, finished with cold-pressed olive oil, cumin, lemon and a spoon of tahini cream.",
-      tags: ["Signature", "Vegetarian"], img: U + "1585937421612-70a008356fbe" + Q },
-    { id: "taameya", cat: "breakfast", name: "Taameya of Green Herbs", ar: "طعمية", price: 7, featured: true,
-      desc: "Split fava and a fistful of dill, parsley and coriander, fried to order in a crust of sesame. Served with pickled turnip.",
-      tags: ["Vegan"], img: U + "1601050690597-df0568f70950" + Q },
-    { id: "shakshuka", cat: "breakfast", name: "House Shakshuka", ar: "شكشوكة", price: 10, featured: true,
-      desc: "Slow-cooked tomato, roasted red pepper and smoked paprika, two farm eggs baked in the cast iron, aged white cheese folded through.",
-      tags: ["Chef's Pick", "Vegetarian"], img: U + "1590412200988-a436970781fa" + Q },
-    { id: "eggs-basterma", cat: "breakfast", name: "Eggs & Basterma", ar: "بيض بالبسطرمة", price: 11,
-      desc: "Air-cured beef under a blanket of fenugreek, crisped in ghee and set with two eggs. Plated in the pan it was cooked in.",
-      tags: [], img: U + "1482049016688-2d3e1b311543" + Q },
-    { id: "cheese-board", cat: "breakfast", name: "Old Cheese & Honey Board", ar: "جبنة قديمة وعسل", price: 12,
-      desc: "Aged gebna qadima, mish, fresh domiati and clotted eshta with black honey, wild thyme honey and warm baladi bread.",
-      tags: ["To Share", "Vegetarian"], img: U + "1452195100486-9cc805987862" + Q },
-    { id: "black-honey", cat: "breakfast", name: "Black Honey & Tahini", ar: "عسل أسود بالطحينة", price: 5,
-      desc: "Sugarcane molasses whipped tableside into stone-ground sesame tahini — the oldest sweet in the country.",
-      tags: ["Vegan"], img: U + "1471943311424-646960669fbc" + Q },
-    { id: "fresh-veg", cat: "breakfast", name: "Garden Mezze Plate", ar: "خضار طازة", price: 6,
-      desc: "Vine tomato, cucumber, rocket, spring onion, radish and green chilli, dressed with lemon and Siwa salt.",
-      tags: ["Vegan"], img: U + "1540420773420-3366772f4999" + Q },
-    { id: "hawawshi", cat: "breakfast", name: "Hawawshi of Spiced Beef", ar: "حواوشي", price: 9,
-      desc: "Baladi bread packed with minced beef, onion and hot pepper, then pressed against the oven wall until it blisters.",
-      tags: [], img: U + "1565299507177-b0ac66763828" + Q },
 
-    /* --- Fresh Bakery --- */
-    { id: "croissant", cat: "bakery", name: "Butter Croissant", ar: "كرواسون", price: 4, featured: true,
-      desc: "Seventy-two hours of cold fermentation and three folds of French butter. Baked hourly until we run out.",
-      tags: ["Baked Hourly"], img: U + "1555507036-ab1f4038808a" + Q },
-    { id: "pistachio-danish", cat: "bakery", name: "Pistachio & Orange Blossom Danish", ar: "دانش فستق", price: 5,
-      desc: "Laminated dough, Aleppo pistachio frangipane and a whisper of orange blossom from the Delta.",
-      tags: [], img: U + "1509440159596-0249088772ff" + Q },
-    { id: "date-maamoul", cat: "bakery", name: "Date Maamoul", ar: "معمول بالتمر", price: 4,
-      desc: "Semolina shortbread pressed in olive-wood moulds, filled with Siwa dates and dusted in icing sugar.",
-      tags: ["Vegetarian"], img: U + "1558961363-fa8fdf82db35" + Q },
-    { id: "petit-fours", cat: "bakery", name: "Petit Fours Assortment", ar: "بيتي فور", price: 18,
-      desc: "A gold box of twelve — apricot, coconut, cocoa and pistachio. The Cairo bakery classic, made properly.",
-      tags: ["Gift Box"], img: U + "1486427944299-d1955d23e34d" + Q },
-    { id: "kahk", cat: "bakery", name: "Kahk el-Eid", ar: "كحك العيد", price: 13,
-      desc: "Ghee-rich festival biscuits filled with agameya, walnut or malban. Made to my grandmother's ratio, never a gram off.",
-      tags: ["Seasonal"], img: U + "1499636136210-6f4ee915583e" + Q },
+    /* ---------------- THE MAIN TABLE ---------------- */
+    { id: "feteer-meshaltet", cat: "mains", name: "Feteer Meshaltet", ar: "فطير مشلتت",
+      price: 14, special: true, featured: true,
+      desc: "The original. Paper-thin dough stretched by hand, folded again and again with ghee between every layer, then baked until the top shatters.",
+      tags: ["House Special", "Vegetarian"], img: U + "1590137876181-2a5a7e340308" + Q },
 
-    /* --- Feteer Meshaltet --- */
-    { id: "feteer-plain", cat: "feteer", name: "Feteer Meshaltet", ar: "فطير مشلتت", price: 10, featured: true,
-      desc: "Thirty hand-pulled layers, brushed with clarified butter and baked on stone until the top shatters. Honey and cream alongside.",
-      tags: ["Signature", "Vegetarian"], img: U + "1590137876181-2a5a7e340308" + Q },
-    { id: "feteer-cheese", cat: "feteer", name: "Feteer with Cheese & Basterma", ar: "فطير بالجبنة والبسطرمة", price: 14,
-      desc: "The same layers, stuffed with rumi cheese, mozzarella and cured basterma, sealed and returned to the fire.",
-      tags: [], img: U + "1513104890138-7c749659a591" + Q },
-    { id: "feteer-sweet", cat: "feteer", name: "Sweet Feteer, Cream & Nuts", ar: "فطير حلو بالقشطة", price: 13,
-      desc: "Finished with eshta, toasted almond, pistachio and a thread of wild honey. Cut at the table.",
-      tags: ["To Share", "Vegetarian"], img: U + "1464349095431-e9a21285b5f3" + Q },
-    { id: "feteer-mixed", cat: "feteer", name: "Feteer of the House, Mixed", ar: "فطير مشكل", price: 16,
-      desc: "Half savoury, half sweet — for the table that cannot decide. Serves three.",
-      tags: ["To Share"], img: U + "1509365465985-25d11c17e812" + Q },
+    { id: "feteer-beef", cat: "mains", name: "Feteer with Plant-Based Beef & Mozzarella", ar: "فطير محشي لحمة",
+      price: 18, special: true, featured: true,
+      desc: "The same hand-stretched layers, stuffed with seasoned plant-based ground beef and melted mozzarella, sealed and returned to the oven.",
+      tags: ["House Special", "Plant-Based"], img: U + "1513104890138-7c749659a591" + Q },
 
-    /* --- Fresh Bread --- */
-    { id: "baladi", cat: "bread", name: "Baladi Bread", ar: "عيش بلدي", price: 2, featured: true,
-      desc: "Wholemeal, bran-dusted and puffed in a 400°C wood oven. Baked every twenty minutes, all day.",
-      tags: ["Vegan", "Baked Hourly"], img: U + "1509440159596-0249088772ff" + Q },
-    { id: "shamsi", cat: "bread", name: "Aish Shamsi", ar: "عيش شمسي", price: 2,
-      desc: "Upper Egyptian sun bread, proofed on wooden boards under daylight before it ever sees the fire.",
-      tags: ["Vegan"], img: U + "1549931319-a545dcf3bc73" + Q },
-    { id: "semit", cat: "bread", name: "Semit Ring", ar: "سميط", price: 2,
-      desc: "Sesame-crusted ring, boiled then baked, crisp outside and soft within. Best with white cheese.",
-      tags: ["Vegan"], img: U + "1608198093002-ad4e005484ec" + Q },
-    { id: "bread-basket", cat: "bread", name: "The Baker's Basket", ar: "سلة الخبز", price: 5,
-      desc: "Baladi, shamsi, semit and a warm feteer wedge, with olive oil, dukkah and salted butter.",
-      tags: ["To Share"], img: U + "1586444248902-2f64eddc13df" + Q },
+    { id: "macarona-bechamel", cat: "mains", name: "Macarona Béchamel Tray", ar: "صينية مكرونة بشاميل",
+      price: 16, featured: true,
+      desc: "Penne baked under a thick blanket of béchamel with plant-based ground beef through the middle, browned on top and cut into squares.",
+      tags: ["Plant-Based", "Tray"], img: U + "1551183053-bf91a1d81141" + Q },
 
-    /* --- Oriental Desserts --- */
-    { id: "konafa", cat: "desserts", name: "Konafa with Cream & Mango", ar: "كنافة بالقشطة", price: 10, featured: true,
-      desc: "Shredded pastry crisped in ghee over clotted eshta, finished with Ismailia mango and pistachio dust.",
-      tags: ["Chef's Pick", "Vegetarian"], img: U + "1519676867240-f03562e64548" + Q },
-    { id: "basbousa", cat: "desserts", name: "Basbousa, Coconut & Cream", ar: "بسبوسة", price: 7,
-      desc: "Semolina cake soaked in lemon syrup the moment it leaves the oven, coconut and almond on top.",
-      tags: ["Vegetarian"], img: U + "1464195244916-405fa0a82545" + Q },
-    { id: "omali", cat: "desserts", name: "Om Ali", ar: "أم علي", price: 9,
-      desc: "Torn feteer baked in cardamom milk with pistachio, raisin and hazelnut, gratinated under cream. Served bubbling.",
-      tags: ["Signature", "Vegetarian"], img: U + "1551024506-0bccd828d307" + Q },
-    { id: "baklava", cat: "desserts", name: "Pistachio Baklava", ar: "بقلاوة", price: 8,
-      desc: "Forty sheets of filo, Aleppo pistachio and a light orange-blossom syrup poured cold onto hot pastry.",
-      tags: ["Vegetarian"], img: U + "1519915028121-7d3463d20b13" + Q },
-    { id: "rice-pudding", cat: "desserts", name: "Roz bel Laban", ar: "رز بلبن", price: 6,
-      desc: "Short-grain rice cooked slowly in buffalo milk with mastic, chilled and torched to a caramel lid.",
-      tags: ["Vegetarian"], img: U + "1488477181946-6428a0291777" + Q },
-    { id: "balah", cat: "desserts", name: "Balah el-Sham", ar: "بلح الشام", price: 6,
-      desc: "Ridged choux fried to order, drowned for exactly nine seconds in cold syrup. Eaten immediately.",
+    { id: "goulash-beef", cat: "mains", name: "Goulash Tray with Plant-Based Beef", ar: "صينية جلاش باللحمة",
+      price: 16,
+      desc: "Sheet after sheet of thin pastry layered with spiced plant-based ground beef and onion, brushed with ghee and baked golden.",
+      tags: ["Plant-Based", "Tray"], img: U + "1565299507177-b0ac66763828" + Q },
+
+    { id: "crepe-beef", cat: "mains", name: "Crepe with Ground Beef & Mozzarella", ar: "كريب باللحمة والموتزاريلا",
+      price: 13,
+      desc: "A soft crepe rolled around seasoned ground beef and mozzarella, griddled until the cheese pulls.",
+      tags: [], img: U + "1626700051175-6818013e1d4f" + Q },
+
+    /* ---------------- SOUPS ---------------- */
+    { id: "lentil-soup", cat: "soups", name: "Lentil Soup", ar: "شوربة عدس",
+      price: 7,
+      desc: "Red lentils cooked down with onion, carrot and cumin until smooth, finished with lemon. Comes with bread on the side.",
+      tags: ["Vegan"], img: U + "1547592166-23ac45744acd" + Q },
+
+    /* ---------------- SWEET ---------------- */
+    { id: "goulash-nuts", cat: "desserts", name: "Goulash Tray with Nuts", ar: "صينية جلاش بالمكسرات",
+      price: 15, special: true, featured: true,
+      desc: "Layered pastry packed with walnut, almond and pistachio, baked crisp and soaked in syrup the moment it leaves the oven.",
+      tags: ["House Special", "Contains Nuts"], img: U + "1519915028121-7d3463d20b13" + Q },
+
+    { id: "mini-feteer-sweet", cat: "desserts", name: "Mini Feteer, Nutella or Pistachio", ar: "فطير صغير حلو",
+      price: 11, featured: true,
+      desc: "A palm-sized feteer with all its layers intact, finished with Nutella or pistachio sauce. Choose when you order.",
+      tags: ["Vegetarian"], img: U + "1509365465985-25d11c17e812" + Q },
+
+    { id: "crepe-nutella", cat: "desserts", name: "Crepe with Nutella", ar: "كريب بالنوتيلا",
+      price: 9,
+      desc: "Warm crepe folded over Nutella until it melts through.",
       tags: ["Vegetarian"], img: U + "1587314168485-3236d6710814" + Q },
 
-    /* --- Middle Eastern Cuisine --- */
-    { id: "mixed-grill", cat: "cuisine", name: "Charcoal Mixed Grill", ar: "مشاوي مشكلة", price: 27, featured: true,
-      desc: "Kofta, lamb kebab and shish taouk over white charcoal, with grilled tomato, onion and tahini salad.",
-      tags: ["To Share"], img: U + "1555939594-58d7cb561ad1" + Q },
-    { id: "molokhia", cat: "cuisine", name: "Molokhia with Rabbit", ar: "ملوخية بالأرانب", price: 22,
-      desc: "Hand-chopped jute leaf, garlic and coriander seared in ghee, poured at the table over rice and braised rabbit.",
-      tags: ["Signature"], img: U + "1547592166-23ac45744acd" + Q },
-    { id: "koshari", cat: "cuisine", name: "Koshari of the House", ar: "كشري", price: 9,
-      desc: "Rice, lentils, macaroni and chickpeas, spiced tomato, cumin vinegar and a crown of onions fried twice.",
-      tags: ["Vegan"], img: U + "1631515243349-e0cb75fb8d3a" + Q },
-    { id: "stuffed-vine", cat: "cuisine", name: "Mahshi Warak Enab", ar: "محشي ورق عنب", price: 12,
-      desc: "Vine leaves rolled thin as a pen, rice, herbs and lemon, pressed under a plate and cooked two hours.",
-      tags: ["Vegan"], img: U + "1540189549336-e6e99c3679fe" + Q },
-    { id: "fattah", cat: "cuisine", name: "Lamb Fattah", ar: "فتة لحم", price: 25,
-      desc: "Toasted bread, garlic-vinegar tomato and rice under slow-braised lamb shank from the shoulder.",
-      tags: ["Chef's Pick"], img: U + "1544025162-d76694265947" + Q },
-    { id: "sayadeya", cat: "cuisine", name: "Alexandrian Sayadeya", ar: "صيادية", price: 23,
-      desc: "Sea bass baked over caramelised onion rice with cumin, bay and a tahini-lemon sauce from the Corniche.",
-      tags: [], img: U + "1519708227418-c8fd9a32b7a2" + Q },
-    { id: "mezze", cat: "cuisine", name: "Grand Mezze Selection", ar: "مقبلات مشكلة", price: 18,
-      desc: "Baba ghanoush, hummus beiruti, muhammara, tabbouleh, labneh and warm bread. Eight plates, one table.",
-      tags: ["To Share", "Vegetarian"], img: U + "1512058564366-18510be2db19" + Q },
+    { id: "crepe-pistachio", cat: "desserts", name: "Crepe with Pistachio Sauce", ar: "كريب بالفستق",
+      price: 10,
+      desc: "The same warm crepe with a thick pistachio cream, dusted with crushed pistachio.",
+      tags: ["Vegetarian", "Contains Nuts"], img: U + "1567620905732-2d1ec7ab7445" + Q },
 
-    /* --- Traditional Drinks --- */
-    { id: "turkish-coffee", cat: "drinks", name: "Turkish Coffee", ar: "قهوة تركي", price: 4, featured: true,
-      desc: "Ground to order and brought to the boil three times on hot sand. Sada, mazbout or ziyada.",
-      tags: ["Vegan"], img: U + "1514432324607-a09d9b4aefdd" + Q },
-    { id: "mint-tea", cat: "drinks", name: "Gilded Mint Tea", ar: "شاي بالنعناع", price: 2,
-      desc: "Assam leaf and Nile-valley mint, poured from height into gilt-rimmed glasses.",
-      tags: ["Vegan"], img: U + "1544787219-7f47ccb76574" + Q },
-    { id: "karkadeh", cat: "drinks", name: "Karkadeh over Ice", ar: "كركديه", price: 3,
-      desc: "Aswan hibiscus steeped cold for twelve hours — deep garnet, tart, barely sweetened.",
-      tags: ["Vegan"], img: U + "1499638673689-79a0b5115d87" + Q },
-    { id: "sahlab", cat: "drinks", name: "Sahlab with Pistachio", ar: "سحلب", price: 5,
-      desc: "Warm orchid-root milk, cinnamon, coconut and crushed pistachio. Winter in a cup.",
-      tags: ["Vegetarian"], img: U + "1517578239113-b03992dcdd25" + Q },
-    { id: "sugarcane", cat: "drinks", name: "Fresh Sugarcane", ar: "عصير قصب", price: 3,
-      desc: "Pressed to order on the brass mill by the window. Nothing added, nothing needed.",
-      tags: ["Vegan"], img: U + "1600271886742-f049cd451bba" + Q },
-    { id: "doum", cat: "drinks", name: "Doum & Lemon Cooler", ar: "دوم بالليمون", price: 3,
-      desc: "Gingerbread-palm fruit infused overnight, lengthened with lemon and served over crushed ice.",
-      tags: ["Vegan"], img: U + "1621263764928-df1444c5e859" + Q },
+    { id: "round-cake", cat: "desserts", name: "Small Round Cake", ar: "كيكة صغيرة",
+      price: 12,
+      desc: "A small home-style cake, baked fresh and iced simply. Ask what today's is.",
+      tags: ["Vegetarian"], img: U + "1578985545062-69928b1d9587" + Q },
 
-    /* --- Chef Specials --- */
-    { id: "chef-tasting", cat: "chef", name: "The Pharaoh's Table", ar: "مائدة الفراعنة", price: 49, featured: true,
-      desc: "Seven courses across the Egyptian day — breakfast to sweet — paired with house infusions. Minimum two guests.",
-      tags: ["Tasting Menu", "Signature"], img: U + "1414235077428-338989a2e8c0" + Q },
-    { id: "duck-fattah", cat: "chef", name: "Duck Fattah, Pomegranate", ar: "فتة بط", price: 29,
-      desc: "Confit Delta duck, pomegranate molasses and toasted bread — Chef Hossam's answer to the Sunday table.",
-      tags: ["Chef's Pick"], img: U + "1432139555190-58524dae6a55" + Q },
-    { id: "quail", cat: "chef", name: "Charcoal Quail, Dukkah", ar: "سمان مشوي", price: 26,
-      desc: "Two quail marinated in garlic and lime, grilled hard and fast, finished with hazelnut dukkah.",
-      tags: [], img: U + "1467003909585-2f8a72700288" + Q },
+    { id: "chocolate-pudding", cat: "desserts", name: "Chocolate Pudding", ar: "بودينج شوكولاتة",
+      price: 7,
+      desc: "Set dark chocolate pudding, chilled, with cream folded through the top.",
+      tags: ["Vegetarian"], img: U + "1541783245831-57d6fb0926d3" + Q },
 
-    /* --- Kids Menu --- */
-    { id: "kids-feteer", cat: "kids", name: "Little Feteer, Honey", ar: "فطير صغير", price: 5,
-      desc: "A palm-sized feteer with honey and cream — the way every Egyptian child first meets it.",
-      tags: ["Vegetarian"], img: U + "1509365465985-25d11c17e812" + Q },
-    { id: "kids-kofta", cat: "kids", name: "Mini Kofta & Rice", ar: "كفتة صغيرة", price: 8,
-      desc: "Two gently spiced beef skewers, buttered rice and cucumber salad.",
-      tags: [], img: U + "1529042410759-befb1204b468" + Q },
-    { id: "kids-pancake", cat: "kids", name: "Semolina Pancakes", ar: "بان كيك", price: 6,
-      desc: "Three small pancakes with black honey, banana and a pot of cream to dip.",
-      tags: ["Vegetarian"], img: U + "1567620905732-2d1ec7ab7445" + Q }
+    { id: "banana-pudding", cat: "desserts", name: "Banana Pudding", ar: "بودينج موز",
+      price: 7,
+      desc: "Layers of vanilla cream, banana and biscuit, left to soften overnight.",
+      tags: ["Vegetarian"], img: U + "1563805042-7684c019e1cb" + Q },
+
+    { id: "creme-caramel", cat: "desserts", name: "Crème Caramel Flan", ar: "كريم كراميل",
+      price: 8,
+      desc: "Baked custard turned out under its own caramel. Cold, wobbling, and gone in a minute.",
+      tags: ["Vegetarian"], img: U + "1488477181946-6428a0291777" + Q },
+
+    /* ---------------- ON THE SIDE ---------------- */
+    { id: "white-cheese", cat: "sides", name: "Egyptian White Cheese", ar: "جبنة بيضاء",
+      price: 6, special: true, featured: true,
+      desc: "Salty, crumbling domiati — the thing every Egyptian reaches for the moment the feteer is torn open.",
+      tags: ["House Special", "Vegetarian"], img: U + "1452195100486-9cc805987862" + Q },
+
+    { id: "black-honey", cat: "sides", name: "Black Honey", ar: "عسل أسود",
+      price: 5,
+      desc: "Sugarcane molasses, dark and mineral. The oldest sweet in the country, and the right partner for plain feteer.",
+      tags: ["Vegan"], img: U + "1471943311424-646960669fbc" + Q },
+
+    { id: "white-honey", cat: "sides", name: "White Honey", ar: "عسل أبيض",
+      price: 5,
+      desc: "Clear wildflower honey, poured cold over hot layers so it runs straight through.",
+      tags: ["Vegetarian"], img: U + "1558642452-9d2a7deb7f62" + Q },
+
+    { id: "tahini", cat: "sides", name: "Tahini", ar: "طحينة",
+      price: 5,
+      desc: "Stone-ground sesame, loosened with lemon. Best stirred into the black honey until the two go pale.",
+      tags: ["Vegan"], img: U + "1590301157890-4810ed352733" + Q },
+
+    /* ---------------- DRINKS ---------------- */
+    { id: "protein-shake", cat: "drinks", name: "House Special Protein Shake", ar: "مشروب البروتين",
+      price: 9, special: true, featured: true,
+      desc: "Twenty-five grams of protein, blended thick and cold. Our own recipe — nothing about it tastes like a supplement.",
+      tags: ["House Special", "25g Protein"], img: U + "1615478503562-ec2d8aa0e24e" + Q }
   ];
 
   /* Gallery ----------------------------------------------------------- */
   var GALLERY = [
-    { cat: "Breakfast",  title: "The morning table",        img: U + "1533089860892-a7c6f0a88666" + QL },
-    { cat: "Fresh Bread", title: "Baladi, straight off the stone", img: U + "1549931319-a545dcf3bc73" + QL },
-    { cat: "Bakery",     title: "Croissants at 06:00",      img: U + "1555507036-ab1f4038808a" + QL },
-    { cat: "Desserts",   title: "Konafa, cut to order",     img: U + "1519676867240-f03562e64548" + QL },
-    { cat: "Kitchen",    title: "Service, second seating",  img: U + "1556910103-1c02745aae4d" + QL },
-    { cat: "Interior",   title: "The gold room",            img: U + "1414235077428-338989a2e8c0" + QL },
-    { cat: "Chef",       title: "Hands that know the dough", img: U + "1577219491135-ce391730fb2c" + QL },
-    { cat: "Egyptian Meals", title: "Molokhia, poured at the table", img: U + "1547592166-23ac45744acd" + QL },
-    { cat: "Bakery",     title: "The wood oven",            img: U + "1517433670267-08bbd4be890f" + QL },
-    { cat: "Breakfast",  title: "Foul, olive oil, cumin",   img: U + "1585937421612-70a008356fbe" + QL },
-    { cat: "Interior",   title: "Evening, room two",        img: U + "1552566626-52f8b828add9" + QL },
-    { cat: "Desserts",   title: "Baklava, forty sheets",    img: U + "1519915028121-7d3463d20b13" + QL },
-    { cat: "Fresh Bread", title: "Semit rings, sesame",     img: U + "1608198093002-ad4e005484ec" + QL },
-    { cat: "Chef",       title: "Stretching the feteer",    img: U + "1556909212-d5b604d0c90d" + QL },
-    { cat: "Kitchen",    title: "Charcoal, white heat",     img: U + "1555939594-58d7cb561ad1" + QL },
-    { cat: "Egyptian Meals", title: "Koshari, the full build", img: U + "1631515243349-e0cb75fb8d3a" + QL },
-    { cat: "Breakfast",  title: "Shakshuka in cast iron",   img: U + "1590412200988-a436970781fa" + QL },
-    { cat: "Interior",   title: "Coffee and the courtyard", img: U + "1495474472287-4d71bcdd2085" + QL }
+    { cat: "Feteer",  title: "Layers, pulled apart hot",        img: U + "1590137876181-2a5a7e340308" + QL },
+    { cat: "Kitchen", title: "Stretching the dough",            img: U + "1556909212-d5b604d0c90d" + QL },
+    { cat: "Sweet",   title: "Goulash with nuts",               img: U + "1519915028121-7d3463d20b13" + QL },
+    { cat: "Sweet",   title: "Crepes, folded warm",             img: U + "1587314168485-3236d6710814" + QL },
+    { cat: "Trays",   title: "Macarona béchamel",               img: U + "1551183053-bf91a1d81141" + QL },
+    { cat: "Kitchen", title: "Hands that know the dough",       img: U + "1577219491135-ce391730fb2c" + QL },
+    { cat: "Kitchen", title: "Out of the oven",                 img: U + "1517433670267-08bbd4be890f" + QL },
+    { cat: "Sides",   title: "White cheese and honey",          img: U + "1452195100486-9cc805987862" + QL },
+    { cat: "Sweet",   title: "Something cold to finish",        img: U + "1488477181946-6428a0291777" + QL },
+    { cat: "Feteer",  title: "Golden, straight from the stone", img: U + "1509440159596-0249088772ff" + QL },
+    { cat: "Sides",   title: "Honey, poured cold",              img: U + "1558642452-9d2a7deb7f62" + QL },
+    { cat: "Trays",   title: "Cut into squares",                img: U + "1565299507177-b0ac66763828" + QL }
   ];
 
-  /* Testimonials ------------------------------------------------------ */
   /* PLACEHOLDER reviews - invented, not real customers. Replace before launch. */
   var REVIEWS = [
     { name: "Yasmine F.", role: "Plano", stars: 5,
       text: "I have eaten feteer my whole life and I was not expecting this in Texas. It arrived still hot enough that the ghee ran when we pulled it apart. My mother asked who made it." },
     { name: "Mark Whitfield", role: "Uptown", stars: 5,
-      text: "Ordered the savoury for a Sunday lunch and there was nothing left twenty minutes later. Boxed whole, still steaming, and the layers actually separate the way they should." },
+      text: "Ordered the béchamel tray for a Sunday lunch and there was nothing left twenty minutes later. It travels well and reheats even better." },
     { name: "Nour El-Deeb", role: "Ordered for a church event", stars: 5,
-      text: "Forty people, half sweet and half savoury, and they walked me through the whole spread beforehand. Everything turned up on time and warm. I have already booked them again." },
+      text: "Forty people, half sweet and half savoury, and they walked me through the whole spread beforehand. Everything turned up on time and warm. I have already ordered again." },
     { name: "Dina M.", role: "Frisco", stars: 5,
-      text: "The black honey and tahini is dangerous. I ordered one to try and put in a second order before we had finished the first." },
+      text: "The goulash with nuts is dangerous. I ordered one tray to try and put in a second order before we had finished the first." },
     { name: "Omar Sabry", role: "Deep Ellum", stars: 5,
-      text: "Proper baladi ghee, proper layers, none of the shortcuts. This is the first time since I moved here that feteer has tasted like home rather than an imitation of it." },
+      text: "Proper ghee, proper layers, none of the shortcuts. First time since I moved here that feteer has tasted like home rather than an imitation of it." },
     { name: "Claire Bennett", role: "Irving", stars: 5,
       text: "Easy to order, they confirmed everything on WhatsApp, and it arrived exactly when they said. The reheating notes in the box were a nice touch." }
   ];
