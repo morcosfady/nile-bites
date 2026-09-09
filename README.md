@@ -144,6 +144,27 @@ lazy-loaded with `loading="lazy"` and `decoding="async"`; the hero uses `fetchpr
 Fonts and the image CDN are preconnected. Scroll handlers are passive and parallax is
 rAF-throttled.
 
+## Asset versioning — read before you edit CSS or JS
+
+Every local stylesheet and script is linked with a `?v=N` query:
+
+```html
+<link rel="stylesheet" href="assets/css/main.css?v=3">
+<script src="assets/js/main.js?v=3" defer></script>
+```
+
+GitHub Pages caches assets aggressively, so without this a returning visitor
+keeps the old CSS after you deploy and your change appears not to have worked.
+
+**After changing anything in `assets/`, bump the number in all nine HTML files:**
+
+```bash
+find . -maxdepth 1 -name '*.html' -exec sed -i 's/?v=3/?v=4/g' {} +
+```
+
+The HTML itself is not versioned — Pages revalidates HTML on each request, so
+new markup arrives immediately.
+
 ## Running locally
 
 Opening `index.html` directly works. To serve it properly (recommended — some browsers
