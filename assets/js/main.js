@@ -7,11 +7,18 @@
   "use strict";
 
   var D = window.NB_DATA || { CATEGORIES: [], MENU: [], GALLERY: [], REVIEWS: [] };
+  var C = window.NB_CONFIG || {};
   var $  = function (s, c) { return (c || document).querySelector(s); };
   var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  var money = function (n) { return n.toLocaleString("en-US") + " EGP"; };
+  var money = function (n) {
+    var sym = C.currencySymbol || "$";
+    /* Whole dollars read cleaner on a menu; only show cents when there are any. */
+    var body = (n % 1 === 0) ? n.toLocaleString("en-US")
+                             : n.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    return sym + body;
+  };
   var esc = function (s) {
     return String(s).replace(/[&<>"']/g, function (c) {
       return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
@@ -193,7 +200,9 @@
     var nums = $$("[data-count]");
     if (!nums.length) return;
     if (reduceMotion || !("IntersectionObserver" in window)) {
-      nums.forEach(function (n) { n.textContent = n.getAttribute("data-count") + (n.getAttribute("data-suffix") || ""); });
+      nums.forEach(function (n) {
+        n.textContent = (n.getAttribute("data-prefix") || "") + n.getAttribute("data-count") + (n.getAttribute("data-suffix") || "");
+      });
       return;
     }
     var io = new IntersectionObserver(function (entries) {
@@ -203,11 +212,12 @@
         var el = entry.target;
         var target = parseFloat(el.getAttribute("data-count"));
         var suffix = el.getAttribute("data-suffix") || "";
+        var prefix = el.getAttribute("data-prefix") || "";
         var start = performance.now();
         var run = function (now) {
           var p = Math.min((now - start) / 1600, 1);
           var eased = 1 - Math.pow(1 - p, 3);
-          el.textContent = Math.round(target * eased).toLocaleString("en-US") + suffix;
+          el.textContent = prefix + Math.round(target * eased).toLocaleString("en-US") + suffix;
           if (p < 1) requestAnimationFrame(run);
         };
         requestAnimationFrame(run);
@@ -454,8 +464,11 @@
     }
 
     var mode = $("[data-mode][aria-pressed='true']");
-    var delivery = mode && mode.getAttribute("data-mode") === "delivery" ? (subtotal > 0 ? 45 : 0) : 0;
-    var service = Math.round(subtotal * 0.12);
+    var isDelivery = mode && mode.getAttribute("data-mode") === "delivery";
+    var fee = C.deliveryFee != null ? C.deliveryFee : 0;
+    var freeOver = C.freeDeliveryOver || 0;
+    var delivery = (isDelivery && subtotal > 0 && !(freeOver && subtotal >= freeOver)) ? fee : 0;
+    var service = Math.round(subtotal * ((C.servicePercent || 0) / 100));
 
     var set = function (sel, val) { var el = $(sel); if (el) el.textContent = money(val); };
     set("[data-subtotal]", subtotal);
@@ -463,8 +476,27 @@
     set("[data-delivery]", delivery);
     set("[data-total]", subtotal + service + delivery);
 
+    var serviceRow = $("[data-service-row]");
+    if (serviceRow) serviceRow.hidden = !(C.servicePercent > 0);
+
+    var min = C.minimumOrder || 0;
+    var belowMin = min > 0 && subtotal > 0 && subtotal < min;
+
+    var note = $("[data-basket-note]");
+    if (note) {
+      if (belowMin) note.textContent = "Minimum order is " + money(min) + " — add " + money(min - subtotal) + " more.";
+      else if (!C.orderEndpoint && !C.orderFallbackWhatsApp) note.textContent = "Online ordering is not connected yet.";
+      else if (!C.orderEndpoint) note.textContent = "Your order is sent to us on WhatsApp, and we confirm before we start baking.";
+      else note.textContent = "We confirm every order before it goes in the oven.";
+    }
+
     var checkout = $("[data-checkout]");
-    if (checkout) checkout.disabled = subtotal === 0;
+    if (checkout) {
+      var canOrder = !!C.orderEndpoint || !!C.orderFallbackWhatsApp;
+      checkout.disabled = subtotal === 0 || belowMin || !canOrder;
+      checkout.textContent = C.orderEndpoint ? "Place Order"
+                           : (C.orderFallbackWhatsApp ? "Send Order on WhatsApp" : "Ordering Unavailable");
+    }
   }
 
   function initOrderInteractions() {
@@ -493,14 +525,101 @@
       }
 
       var checkout = e.target.closest("[data-checkout]");
-      if (checkout) {
-        toast("Order sent to the kitchen — we will call to confirm.");
-        basket = {};
-        Store.write("basket", basket);
-        renderBasket();
-        syncBasketBadge();
-      }
+      if (checkout) { submitOrder(checkout); }
     });
+  }
+
+  /* --- Submitting an order ---------------------------------------------
+     Posts the order to CONFIG.orderEndpoint. Until that endpoint exists the
+     order is handed to WhatsApp instead, so the button always does something
+     real rather than showing a fake confirmation.
+  ------------------------------------------------------------------------ */
+  function buildOrder() {
+    var mode = $("[data-mode][aria-pressed='true']");
+    var lines = Object.keys(basket).map(function (id) {
+      var item = D.MENU.filter(function (m) { return m.id === id; })[0];
+      if (!item) return null;
+      return { id: id, name: item.name, qty: basket[id], unitPrice: item.price, lineTotal: item.price * basket[id] };
+    }).filter(Boolean);
+
+    var subtotal = lines.reduce(function (sum, l) { return sum + l.lineTotal; }, 0);
+    var isDelivery = mode && mode.getAttribute("data-mode") === "delivery";
+    var freeOver = C.freeDeliveryOver || 0;
+    var delivery = (isDelivery && !(freeOver && subtotal >= freeOver)) ? (C.deliveryFee || 0) : 0;
+    var service = Math.round(subtotal * ((C.servicePercent || 0) / 100));
+
+    return {
+      placedAt: new Date().toISOString(),
+      fulfilment: isDelivery ? "delivery" : "collection",
+      currency: C.currency || "USD",
+      items: lines,
+      subtotal: subtotal,
+      service: service,
+      delivery: delivery,
+      total: subtotal + service + delivery
+    };
+  }
+
+  function orderAsText(order) {
+    var nl = "\n";
+    var lines = order.items.map(function (l) {
+      return l.qty + " x " + l.name + " - " + money(l.lineTotal);
+    });
+    return "Hi " + (C.businessName || "there") + "! I would like to order:" + nl + nl +
+      lines.join(nl) + nl + nl +
+      "Fulfilment: " + order.fulfilment + nl +
+      "Total: " + money(order.total);
+  }
+
+  function clearBasket() {
+    basket = {};
+    Store.write("basket", basket);
+    renderBasket();
+    syncBasketBadge();
+  }
+
+  function submitOrder(btn) {
+    if (!Object.keys(basket).length) return;
+    var order = buildOrder();
+
+    /* No backend yet — hand it to WhatsApp rather than faking success. */
+    if (!C.orderEndpoint) {
+      if (!C.orderFallbackWhatsApp || !C.whatsappNumber) {
+        toast("Ordering is not connected yet — please call us.");
+        return;
+      }
+      window.open("https://wa.me/" + C.whatsappNumber + "?text=" + encodeURIComponent(orderAsText(order)),
+                  "_blank", "noopener");
+      toast("Opening WhatsApp with your order…");
+      return;
+    }
+
+    var original = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = "Sending…";
+
+    fetch(C.orderEndpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(order)
+    })
+      .then(function (res) {
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        toast("Order received — we will confirm shortly.");
+        clearBasket();
+      })
+      .catch(function () {
+        /* Never swallow the order: fall back to WhatsApp so it still reaches us. */
+        btn.disabled = false;
+        btn.textContent = original;
+        if (C.orderFallbackWhatsApp && C.whatsappNumber) {
+          toast("Could not reach the kitchen — sending on WhatsApp instead.");
+          window.open("https://wa.me/" + C.whatsappNumber + "?text=" + encodeURIComponent(orderAsText(order)),
+                      "_blank", "noopener");
+        } else {
+          toast("Could not send your order. Please call us.");
+        }
+      });
   }
 
   /* --- Gallery + lightbox ---------------------------------------------- */
