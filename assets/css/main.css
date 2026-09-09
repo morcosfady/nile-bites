@@ -75,7 +75,7 @@
 
   --shell: 1280px;
   --shell-narrow: 880px;
-  --header-h: 84px;
+  --header-h: 92px;
 }
 
 /* 2. RESET & BASE -------------------------------------------------------- */
@@ -393,7 +393,7 @@ p { text-wrap: pretty; }
   border-bottom: 1px solid transparent;
 }
 .site-header.is-stuck {
-  height: 68px;
+  height: 74px;
   background: rgba(12, 12, 12, .82);
   backdrop-filter: blur(18px) saturate(140%);
   -webkit-backdrop-filter: blur(18px) saturate(140%);
@@ -411,13 +411,13 @@ p { text-wrap: pretty; }
 }
 
 .brand { display: flex; align-items: center; gap: .75rem; flex: none; }
-.brand__mark { width: 34px; height: 34px; transition: transform .6s var(--ease-out); }
+.brand__mark { width: 46px; height: 46px; flex: none; transition: transform .6s var(--ease-out); }
 .brand:hover .brand__mark { transform: rotate(-6deg) scale(1.06); }
 .brand__type { display: flex; flex-direction: column; line-height: 1; }
 .brand__name {
   font-family: var(--font-display);
-  font-size: 1.2rem;
-  letter-spacing: .13em;
+  font-size: 1.62rem;
+  letter-spacing: .14em;
   white-space: nowrap;
   color: var(--ivory);
 }
@@ -425,8 +425,8 @@ p { text-wrap: pretty; }
   display: flex;
   align-items: center;
   gap: .38em;
-  font-size: .52rem;
-  letter-spacing: .16em;
+  font-size: .58rem;
+  letter-spacing: .15em;
   text-transform: uppercase;
   white-space: nowrap;
   color: var(--gold);
@@ -442,17 +442,11 @@ p { text-wrap: pretty; }
   text-transform: none;
   line-height: 1;
 }
-@media (max-width: 420px) {
-  /* Keep the wordmark readable on the narrowest phones. */
-  .brand__name { font-size: 1.02rem; letter-spacing: .09em; }
-  .brand__sub .ar { display: none; }
-  .brand__sub { gap: 0; }
-  .brand__sub::before { content: none; }
-}
 
-.nav { display: flex; align-items: center; gap: clamp(.5rem, 1.4vw, 1.6rem); }
+.nav { display: flex; align-items: center; gap: clamp(.45rem, 1.05vw, 1.15rem); }
 .nav__link {
   position: relative;
+  white-space: nowrap;
   font-size: var(--step--1);
   font-weight: 300;
   letter-spacing: .13em;
@@ -475,6 +469,11 @@ p { text-wrap: pretty; }
 .nav__link[aria-current="page"] { color: var(--gold); }
 
 .header-actions { display: flex; align-items: center; gap: .8rem; flex: none; }
+
+/* The nav carries its own CTA for the mobile drawer. Above the drawer
+   breakpoint .header-actions renders one too, so hide the nav copy or the
+   header shows the same button twice. */
+.nav > .btn { display: none; }
 
 .nav-toggle {
   display: none;
@@ -522,7 +521,18 @@ p { text-wrap: pretty; }
   }
   .nav.is-open { opacity: 1; visibility: visible; transform: none; }
   .nav__link { font-size: 1.25rem; letter-spacing: .22em; padding: .78rem; }
-  .nav .btn { display: inline-flex; margin-top: 1.4rem; }
+  .nav > .btn { display: inline-flex; margin-top: 1.4rem; }
+  .brand__mark { width: 40px; height: 40px; }
+  .brand__name { font-size: 1.42rem; }
+}
+
+@media (max-width: 420px) {
+  /* Keep the wordmark readable on the narrowest phones. */
+  .brand__name { font-size: 1.18rem; letter-spacing: .1em; }
+  .brand__mark { width: 34px; height: 34px; }
+  .brand__sub .ar { display: none; }
+  .brand__sub { gap: 0; }
+  .brand__sub::before { content: none; }
 }
 
 /* 8. FOOTER -------------------------------------------------------------- */
