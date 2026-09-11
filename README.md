@@ -16,8 +16,6 @@ static HTML/CSS/JS with no build step and no dependencies.
 | About | `about.html` | Who we are, six values, the family, stats, full guest book |
 | Our Story | `our-story.html` | Nine-point heritage timeline, craft breakdown, founder quote |
 | Menu | `menu.html` | Signature spotlight, live search, 9 category filters, 46 dishes, featured cards |
-| Bakery | `bakery.html` | Wood-oven panel with bake schedule, six bakery counters, atmosphere split, gallery |
-| Gallery | `gallery.html` | Masonry gallery, subject filters, keyboard-navigable lightbox |
 | Reservations | `reservations.html` | Validated booking form, live opening hours, party picker, private dining |
 | Order Online | `order.html` | Full item list, category filters, persistent basket with live totals |
 | Contact | `contact.html` | Contact tiles, Google Map, hours, socials, validated enquiry form |
