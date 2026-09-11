@@ -58,6 +58,16 @@
       desc: "A soft crepe rolled around seasoned ground beef and mozzarella, griddled until the cheese pulls.",
       tags: [], img: U + "1626700051175-6818013e1d4f" + Q },
 
+    { id: "kofta-tray", cat: "mains", name: "Plant-Based Kofta Tray with Salsa & Rice", ar: "صينية كفتة بالصلصة والأرز",
+      price: 35,
+      desc: "Hand-shaped plant-based kofta baked in a rich tomato salsa with onion and garlic, served over a bed of Egyptian rice. Feeds a table.",
+      tags: ["Plant-Based", "Tray"], img: U + "1529042410759-befb1204b468" + Q },
+
+    { id: "meatballs-spaghetti", cat: "mains", name: "Plant-Based Meatballs & Spaghetti", ar: "كرات لحم نباتية بالمكرونة",
+      price: 25,
+      desc: "Plant-based meatballs simmered in tomato sauce and tossed through spaghetti, finished with a little parmesan.",
+      tags: ["Plant-Based"], img: U + "1622973536968-3ead9e780960" + Q },
+
     /* ---------------- SOUPS ---------------- */
     { id: "lentil-soup", cat: "soups", name: "Lentil Soup", ar: "شوربة عدس",
       price: 7,
