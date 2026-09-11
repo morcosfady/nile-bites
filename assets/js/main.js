@@ -605,33 +605,37 @@
   function orderAsText(order) {
     var nl = "\n";
     var c = order.customer || {};
-    var address = [c.street, c.apt, c.city + ", " + c.state + " " + c.zip].filter(Boolean);
+    var address = [
+      "\uD83C\uDFE0 " + c.street,
+      c.apt ? "\uD83D\uDEAA Apt/Unit: " + c.apt : "",
+      "\uD83C\uDF06 " + c.city + ", " + c.state + " " + c.zip
+    ].filter(Boolean);
 
     var items = order.items.map(function (l, i) {
-      return (i + 1) + ". " + l.name + nl +
-        "Quantity: " + l.qty + nl +
-        "Price: " + money(l.unitPrice) + nl +
-        "Total: " + money(l.lineTotal);
+      return "\uD83C\uDF7D\uFE0F " + (i + 1) + ". " + l.name + nl +
+        "\uD83D\uDD22 Quantity: " + l.qty + nl +
+        "\uD83D\uDCB5 Price: " + money(l.unitPrice) + nl +
+        "\uD83E\uDDFE Total: " + money(l.lineTotal);
     });
 
     return [
-      "👑 NEW PHARAOH’S BITES ORDER",
+      "\uD83D\uDC51\u2728 NEW PHARAOH\u2019S BITES ORDER \u2728\uD83D\uDC51",
       "",
-      "👤 CUSTOMER INFORMATION",
-      "Name: " + c.name,
+      "\uD83D\uDC64 CUSTOMER INFORMATION",
+      "\uD83D\uDD8A\uFE0F Name: " + c.name,
       "",
-      "📍 DELIVERY ADDRESS",
+      "\uD83D\uDCCD DELIVERY ADDRESS",
       address.join(nl),
       "",
-      "🛒 ORDER DETAILS",
+      "\uD83D\uDED2 ORDER DETAILS",
       "",
       items.join(nl + nl),
       "",
-      "💰 ORDER SUBTOTAL: " + money(order.subtotal),
-      "🚗 Delivery fee is not included and will be calculated based on the delivery address.",
-      "💳 Payment will be collected through Zelle or Venmo after the final total and delivery fee are confirmed.",
+      "\uD83D\uDCB0 ORDER SUBTOTAL: " + money(order.subtotal) + " \uD83D\uDCB0",
+      "\uD83D\uDE97\uD83D\uDCA8 Delivery fee is not included and will be calculated based on the delivery address.",
+      "\uD83D\uDCB3\u2705 Payment will be collected through Zelle or Venmo after the final total and delivery fee are confirmed.",
       "",
-      "Please confirm my order and delivery fee. Thank you!"
+      "\uD83D\uDE4F Please confirm my order and delivery fee. Thank you! \uD83D\uDE0A\uD83E\uDD5E"
     ].join(nl);
   }
 
