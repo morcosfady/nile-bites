@@ -841,6 +841,20 @@
 .btn--whatsapp svg { width: 1.5em; height: 1.5em; flex: none; }
 .btn--whatsapp:hover:not(:disabled), .btn--whatsapp:focus-visible { background: #1ebe5a; border-color: #1ebe5a; color: #fff; transform: translateY(-1px); }
 .btn--whatsapp:disabled { opacity: .45; cursor: not-allowed; box-shadow: none; transform: none; }
+.btn--whatsapp.is-busy { opacity: .85; cursor: progress; }
+.btn--whatsapp.is-busy svg { animation: spin 1.1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.checkout-error {
+  margin-top: .9rem;
+  padding: .85rem 1rem;
+  border: 1px solid rgba(224, 138, 130, .5);
+  border-radius: var(--r-md);
+  background: rgba(198, 64, 64, .12);
+  font-size: var(--step--2);
+  line-height: 1.5;
+  color: #f3c5c0;
+}
+.checkout-error[hidden] { display: none; }
 @media (max-width: 980px) {
   .basket { position: static; }
 }

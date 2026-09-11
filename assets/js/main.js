@@ -493,13 +493,13 @@
   }
 
   /* --- Customer details ------------------------------------------------ */
-  var REQUIRED_FIELDS = ["name", "street", "city", "state", "zip"];
+  var REQUIRED_FIELDS = ["name", "phone", "street", "city", "state", "zip"];
 
   function readCustomer() {
     var form = $("[data-checkout-form]");
     if (!form) return null;
     var c = {};
-    ["name", "street", "apt", "city", "state", "zip"].forEach(function (k) {
+    ["name", "phone", "street", "apt", "city", "state", "zip", "instructions", "requested_at"].forEach(function (k) {
       var el = form.elements[k];
       c[k] = el ? el.value.trim() : "";
     });
@@ -509,7 +509,8 @@
   function customerComplete(c) {
     if (!c) return false;
     return REQUIRED_FIELDS.every(function (k) { return c[k].length > 0; }) &&
-           /^\d{5}(-\d{4})?$/.test(c.zip);
+           /^\d{5}(-\d{4})?$/.test(c.zip) &&
+           c.phone.replace(/\D/g, "").length >= 7;
   }
 
   function updateCheckoutState(subtotal) {
@@ -532,7 +533,7 @@
     if (note) {
       var min = C.minimumOrder || 0;
       if (!hasItems) note.textContent = "Add a dish and fill in your details to continue.";
-      else if (!detailsOk) note.textContent = "Fill in your name and delivery address to continue.";
+      else if (!detailsOk) note.textContent = "Fill in your name, phone number and delivery address to continue.";
       else if (min > 0 && subtotal < min) note.textContent = "Heads up: our usual minimum is " + money(min) + ". Send it anyway and we will confirm.";
       else note.textContent = "WhatsApp opens with your order ready to send. We confirm the delivery fee before payment.";
     }
@@ -573,7 +574,10 @@
       if (rm) { setQty(rm.getAttribute("data-remove"), 0); toast("Item removed"); return; }
 
       var checkout = e.target.closest("[data-checkout]");
-      if (checkout) { submitOrder(checkout); }
+      if (checkout) { submitOrder(checkout); return; }
+
+      var retry = e.target.closest("[data-checkout-retry]");
+      if (retry) { var b = $("[data-checkout]"); if (b) submitOrder(b); }
     });
   }
 
@@ -586,7 +590,7 @@
     var lines = Object.keys(basket).map(function (id) {
       var item = D.MENU.filter(function (m) { return m.id === id; })[0];
       if (!item) return null;
-      return { id: id, name: item.name, qty: basket[id], unitPrice: item.price, lineTotal: item.price * basket[id] };
+      return { id: id, name: item.name, qty: basket[id], options: "", unitPrice: item.price, lineTotal: item.price * basket[id] };
     }).filter(Boolean);
 
     var subtotal = lines.reduce(function (sum, l) { return sum + l.lineTotal; }, 0);
@@ -605,38 +609,90 @@
   function orderAsText(order) {
     var nl = "\n";
     var c = order.customer || {};
-    var address = [
-      "\uD83C\uDFE0 " + c.street,
-      c.apt ? "\uD83D\uDEAA Apt/Unit: " + c.apt : "",
-      "\uD83C\uDF06 " + c.city + ", " + c.state + " " + c.zip
-    ].filter(Boolean);
+    var address = [c.street, c.apt, c.city + ", " + c.state + " " + c.zip].filter(Boolean).join(", ");
+
+    var head = ["👑✨ NEW PHARAOH’S BITES ORDER ✨👑"];
+    if (order.orderNumber) head.push("🔖 Order Number: " + order.orderNumber);
+
+    var cust = ["👤 CUSTOMER", "🖊️ Name: " + c.name];
+    if (c.phone) cust.push("📞 Phone: " + c.phone);
+    cust.push("📍 Address: " + address);
+    if (c.instructions) cust.push("📝 Delivery Instructions: " + c.instructions);
 
     var items = order.items.map(function (l, i) {
-      return "\uD83C\uDF7D\uFE0F " + (i + 1) + ". " + l.name + nl +
-        "\uD83D\uDD22 Quantity: " + l.qty + nl +
-        "\uD83D\uDCB5 Price: " + money(l.unitPrice) + nl +
-        "\uD83E\uDDFE Total: " + money(l.lineTotal);
+      var rows = ["🍽️ " + (i + 1) + ". " + l.name, "🔢 Quantity: " + l.qty];
+      if (l.options) rows.push("⚙️ Options: " + l.options);
+      rows.push("💵 Unit Price: " + money(l.unitPrice), "🧾 Line Total: " + money(l.lineTotal));
+      return rows.join(nl);
     });
 
+    var totals = [
+      "💰 Merchandise Subtotal: " + money(order.subtotal),
+      "🚗 Delivery Fee: To be determined",
+      "🧮 Estimated Tax: To be confirmed",
+      "✅ Final Total: To be confirmed"
+    ];
+    if (c.requested_at) totals.push("🗓️ Requested Date/Time: " + formatRequested(c.requested_at));
+
     return [
-      "\uD83D\uDC51\u2728 NEW PHARAOH\u2019S BITES ORDER \u2728\uD83D\uDC51",
-      "",
-      "\uD83D\uDC64 CUSTOMER INFORMATION",
-      "\uD83D\uDD8A\uFE0F Name: " + c.name,
-      "",
-      "\uD83D\uDCCD DELIVERY ADDRESS",
-      address.join(nl),
-      "",
-      "\uD83D\uDED2 ORDER DETAILS",
-      "",
-      items.join(nl + nl),
-      "",
-      "\uD83D\uDCB0 ORDER SUBTOTAL: " + money(order.subtotal) + " \uD83D\uDCB0",
-      "\uD83D\uDE97\uD83D\uDCA8 Delivery fee is not included and will be calculated based on the delivery address.",
-      "\uD83D\uDCB3\u2705 Payment will be collected through Zelle or Venmo after the final total and delivery fee are confirmed.",
-      "",
-      "\uD83D\uDE4F Please confirm my order and delivery fee. Thank you! \uD83D\uDE0A\uD83E\uDD5E"
+      head.join(nl), "", cust.join(nl), "", "🛒 ORDER", "", items.join(nl + nl), "", totals.join(nl), "",
+      "💳 Payment method will be arranged through Zelle or Venmo after the delivery fee and final total are confirmed.",
+      "🙏 Please confirm my order and delivery fee. Thank you! 😊"
     ].join(nl);
+  }
+
+  function formatRequested(v) {
+    var d = new Date(v);
+    if (isNaN(d.getTime())) return v;
+    return d.toLocaleString("en-US", { weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
+  }
+
+  /* --- Checkout token: one per basket + customer snapshot ---------------
+     The token is the idempotency key sent to the finance system. It only
+     changes when the basket or the customer details change, so a double
+     click or a refresh re-sends the same token and gets the same order
+     number back instead of creating a duplicate. */
+  function checkoutToken(order) {
+    var sig = JSON.stringify([order.items.map(function (l) { return [l.id, l.qty, l.options || ""]; }), order.customer]);
+    var saved = Store.read("checkout", null);
+    if (saved && saved.sig === sig && saved.token) return saved;
+    var token = "pb_" + Date.now().toString(36) + "_" + Math.random().toString(36).slice(2, 12) + Math.random().toString(36).slice(2, 12);
+    saved = { sig: sig, token: token, orderNumber: null };
+    Store.write("checkout", saved);
+    return saved;
+  }
+
+  /* Record the order in the finance system. Resolves with the order number
+     or rejects with a readable error. Never trusts client totals: only
+     product ids, quantities and customer details are sent. */
+  function recordOrder(order, token) {
+    var payload = {
+      checkout_token: token,
+      customer: {
+        name: order.customer.name, phone: order.customer.phone, street: order.customer.street, apt: order.customer.apt,
+        city: order.customer.city, state: order.customer.state, zip: order.customer.zip,
+        instructions: order.customer.instructions || "",
+        requested_at: order.customer.requested_at ? new Date(order.customer.requested_at).toISOString() : ""
+      },
+      items: order.items.map(function (l) { return { slug: l.id, quantity: l.qty, options: l.options || "" }; })
+    };
+    var ctrl = typeof AbortController !== "undefined" ? new AbortController() : null;
+    var timer = ctrl ? setTimeout(function () { ctrl.abort(); }, 15000) : null;
+    return fetch(C.financeOrderEndpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "apikey": C.financeAnonKey || "", "Authorization": "Bearer " + (C.financeAnonKey || "") },
+      body: JSON.stringify(payload),
+      signal: ctrl ? ctrl.signal : undefined
+    }).then(function (res) {
+      if (timer) clearTimeout(timer);
+      return res.json().catch(function () { return {}; }).then(function (data) {
+        if (!res.ok || !data.ok) throw new Error(data.error || ("Server error " + res.status));
+        return data.order_number;
+      });
+    }, function (err) {
+      if (timer) clearTimeout(timer);
+      throw new Error(err && err.name === "AbortError" ? "The request timed out." : "Network error — check your connection.");
+    });
   }
 
   function clearBasket() {
@@ -646,22 +702,68 @@
     syncBasketBadge();
   }
 
+  var submitting = false;
+
+  function openWhatsApp(order, number) {
+    var url = "https://wa.me/" + number + "?text=" + encodeURIComponent(orderAsText(order));
+    var win = window.open(url, "_blank", "noopener");
+    if (!win) window.location.href = url;   /* popup blocked: same tab */
+    toast("Opening WhatsApp with your order…");
+  }
+
+  function setCheckoutBusy(btn, busy, label) {
+    btn.disabled = busy;
+    btn.classList.toggle("is-busy", busy);
+    var span = $("[data-checkout-label]", btn);
+    if (span) span.textContent = label || "Complete Order on WhatsApp";
+  }
+
+  function showCheckoutError(msg) {
+    var box = $("[data-checkout-error]");
+    var text = $("[data-checkout-error-text]");
+    if (text) text.textContent = msg;
+    if (box) box.hidden = !msg;
+  }
+
   function submitOrder(btn) {
+    if (submitting) return;                    /* double-click guard */
     if (!Object.keys(basket).length) return;
     var order = buildOrder();
     if (!customerComplete(order.customer)) {
-      toast("Please fill in your name and delivery address first.");
+      toast("Please fill in your name, phone and delivery address first.");
       updateCheckoutState();
       return;
     }
     var number = C.orderWhatsappNumber || C.whatsappNumber;
     if (!number) { toast("Ordering is not connected yet — please call us."); return; }
+    showCheckoutError("");
 
-    /* Standard wa.me deep link with the prefilled message; no API needed. */
-    var url = "https://wa.me/" + number + "?text=" + encodeURIComponent(orderAsText(order));
-    var win = window.open(url, "_blank", "noopener");
-    if (!win) window.location.href = url;   /* popup blocked: same tab */
-    toast("Opening WhatsApp with your order…");
+    /* No finance endpoint configured: WhatsApp only (previous behaviour). */
+    if (!C.financeOrderEndpoint) { openWhatsApp(order, number); return; }
+
+    var state = checkoutToken(order);
+    /* Already recorded (e.g. page refreshed after success): reuse the number. */
+    if (state.orderNumber) {
+      order.orderNumber = state.orderNumber;
+      openWhatsApp(order, number);
+      return;
+    }
+
+    submitting = true;
+    setCheckoutBusy(btn, true, "Saving your order…");
+    recordOrder(order, state.token).then(function (orderNumber) {
+      state.orderNumber = orderNumber;
+      Store.write("checkout", state);
+      order.orderNumber = orderNumber;
+      submitting = false;
+      setCheckoutBusy(btn, false);
+      toast("Order " + orderNumber + " saved");
+      openWhatsApp(order, number);
+    }).catch(function (err) {
+      submitting = false;
+      setCheckoutBusy(btn, false);
+      showCheckoutError("We could not save your order (" + err.message + "). Nothing was lost — your basket and details are still here. Please try again, or message us on WhatsApp directly.");
+    });
   }
 
   /* --- Gallery + lightbox ---------------------------------------------- */
