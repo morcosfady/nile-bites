@@ -67,6 +67,12 @@
   height: auto;
   filter: drop-shadow(0 6px 26px rgba(212, 175, 55, .35));
 }
+.hero__emblem {
+  /* The full emblem carries the name, so it takes the wordmark's place. */
+  width: clamp(260px, 38vw, 460px);
+  height: auto;
+  filter: drop-shadow(0 10px 34px rgba(212, 175, 55, .28)) drop-shadow(0 2px 6px rgba(0, 0, 0, .6));
+}
 .hero__wordmark__name {
   font-family: var(--font-display);
   font-size: clamp(2.2rem, 5.8vw, 4.6rem);

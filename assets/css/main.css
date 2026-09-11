@@ -411,7 +411,7 @@ p { text-wrap: pretty; }
 }
 
 .brand { display: flex; align-items: center; gap: .75rem; flex: none; }
-.brand__mark { width: 46px; height: 46px; flex: none; transition: transform .6s var(--ease-out); }
+.brand__mark { width: 46px; height: auto; flex: none; transition: transform .6s var(--ease-out); }
 .brand:hover .brand__mark { transform: rotate(-6deg) scale(1.06); }
 .brand__type { display: flex; flex-direction: column; line-height: 1; }
 .brand__name {
@@ -579,7 +579,7 @@ p { text-wrap: pretty; }
 .footer-list a:hover { color: var(--gold); padding-left: .4rem; }
 .footer-contact a:hover { color: var(--gold); }
 
-.footer-logo { width: 190px; margin-bottom: 1.3rem; }
+.footer-logo { width: 240px; height: auto; margin-bottom: 1.1rem; filter: drop-shadow(0 4px 18px rgba(212, 175, 55, .18)); }
 
 .socials { display: flex; gap: .6rem; margin-top: 1.4rem; flex-wrap: wrap; }
 .social {

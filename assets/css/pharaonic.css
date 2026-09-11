@@ -342,3 +342,179 @@ h1, h2 { letter-spacing: .012em; }
 @media (prefers-reduced-motion: no-preference) {
   .card:hover .tag--special .pharaoh-mark { transform: translateY(-1px); transition: transform .4s var(--ease); }
 }
+
+/* 10. PHARAOHS & GLYPHS ---------------------------------------------------
+   The emblem's pharaoh and a set of classic symbols — ankh, Eye of Horus,
+   scarab, feather of Ma'at, lotus, djed — placed through every page so the
+   theme is felt on each screen, not only in the header. */
+
+/* Eyebrows open with a small ankh instead of a bare hairline */
+.eyebrow::before {
+  width: 12px;
+  height: 18px;
+  background: url("../img/glyphs/ankh.svg") center / contain no-repeat;
+  opacity: .9;
+}
+.eyebrow.is-centered::after {
+  width: 12px;
+  height: 18px;
+  background: url("../img/glyphs/ankh.svg") center / contain no-repeat;
+  opacity: .9;
+}
+
+/* Glyph strip — a row of symbols used as a section separator */
+.glyph-strip {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(1.4rem, 4vw, 3rem);
+  padding-block: 1.6rem;
+  position: relative;
+  pointer-events: none;
+}
+.glyph-strip::before, .glyph-strip::after {
+  content: "";
+  flex: 1;
+  max-width: 220px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, .45));
+}
+.glyph-strip::after { background: linear-gradient(90deg, rgba(212, 175, 55, .45), transparent); }
+.glyph-strip span {
+  display: block;
+  width: 30px;
+  height: 34px;
+  background: center / contain no-repeat;
+  opacity: .8;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, .6));
+}
+.glyph-strip .g-ankh    { background-image: url("../img/glyphs/ankh.svg"); width: 22px; }
+.glyph-strip .g-eye     { background-image: url("../img/glyphs/eye-of-horus.svg"); width: 46px; }
+.glyph-strip .g-scarab  { background-image: url("../img/glyphs/scarab.svg"); }
+.glyph-strip .g-feather { background-image: url("../img/glyphs/feather.svg"); width: 20px; }
+.glyph-strip .g-lotus   { background-image: url("../img/glyphs/lotus.svg"); width: 46px; }
+.glyph-strip .g-djed    { background-image: url("../img/glyphs/djed.svg"); width: 20px; }
+.glyph-strip .g-pharaoh { background-image: url("../img/brand/mark.png"); width: 44px; height: 42px; opacity: 1; }
+@media (max-width: 640px) {
+  .glyph-strip { gap: 1rem; }
+  .glyph-strip .g-feather, .glyph-strip .g-djed { display: none; }
+}
+
+/* Temple dividers now alternate: ankh lintel (default), Eye of Horus, scarab */
+.rule--eye {
+  background: url("../img/glyphs/eye-of-horus.svg") center / auto 44px no-repeat;
+}
+.rule--scarab {
+  background: url("../img/glyphs/scarab.svg") center / auto 52px no-repeat;
+}
+.rule--eye::before, .rule--eye::after,
+.rule--scarab::before, .rule--scarab::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: min(160px, 30%);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, .5));
+}
+.rule--eye, .rule--scarab { position: relative; }
+.rule--eye::before, .rule--scarab::before { right: calc(50% + 40px); }
+.rule--eye::after, .rule--scarab::after { left: calc(50% + 40px); transform: scaleX(-1); }
+
+/* The pharaoh watches over the darker bands: a large, faint bust set to one
+   side of interior page banners, the stone quote band and the closing call. */
+.page-hero .shell::after,
+.section--stone::after,
+.cta-band .shell::after {
+  content: "";
+  position: absolute;
+  right: clamp(-40px, 2vw, 60px);
+  bottom: -6%;
+  width: clamp(220px, 28vw, 420px);
+  aspect-ratio: 610 / 745;
+  background: url("../img/brand/pharaoh-watermark.png") center bottom / contain no-repeat;
+  opacity: .16;
+  pointer-events: none;
+  z-index: 0;
+  filter: drop-shadow(0 0 40px rgba(212, 175, 55, .25));
+}
+.page-hero .shell { position: relative; }
+.page-hero .shell::after {
+  z-index: 0;
+  opacity: .22;
+  right: calc(50% - 50vw + 8px);
+  bottom: -4.6rem;   /* the banner's bottom padding, so the bust sits on the crest */
+}
+.section--stone::after { opacity: .11; }
+/* The closing call keeps its column on the left and gets the pharaoh on the right */
+.cta-band { overflow: hidden; }
+.cta-band .shell::after {
+  top: auto;
+  /* Pin to the viewport's right edge, clear of the centred copy */
+  right: calc(50% - 50vw + 8px);
+  bottom: -30px;
+  height: auto;
+  width: clamp(200px, 22vw, 320px);
+  transform: none;
+  opacity: .26;
+  background: url("../img/brand/pharaoh-watermark.png") center bottom / contain no-repeat;
+}
+@media (max-width: 1180px) {
+  .cta-band .shell::after { display: block; opacity: .12; }
+}
+@media (max-width: 760px) {
+  .page-hero .shell::after { width: 200px; opacity: .14; }
+}
+.page-hero .shell > *, .section--stone .shell, .cta-band .shell > * { position: relative; z-index: 1; }
+
+/* Stats band: a scarab flanks each side */
+.stats { position: relative; }
+.stats::before, .stats::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 54px;
+  height: 60px;
+  background: url("../img/glyphs/scarab.svg") center / contain no-repeat;
+  opacity: .22;
+  pointer-events: none;
+}
+.stats::before { left: -74px; }
+.stats::after { right: -74px; }
+@media (max-width: 1180px) { .stats::before, .stats::after { display: none; } }
+
+/* Marquee: scarab between entries instead of the lotus bud */
+.marquee__item::after {
+  width: 16px;
+  height: 18px;
+  background: url("../img/glyphs/scarab.svg") center / contain no-repeat;
+  opacity: .7;
+}
+
+/* Menu section heads: Eye of Horus watches over the dish count */
+.menu-group__count { display: inline-flex; align-items: center; gap: .6rem; }
+.menu-group__count::before {
+  content: "";
+  width: 30px;
+  height: 20px;
+  background: url("../img/glyphs/eye-of-horus.svg") center / contain no-repeat;
+  opacity: .8;
+}
+
+/* Feature roundels: the glyph set replaces the generic icons where present */
+.feature__icon { position: relative; }
+
+/* Footer: the hieroglyph band reads clearly now */
+.glyph-band { opacity: .62; height: 30px; background-size: auto 30px; }
+
+/* Footer contact block opens with the Eye of Horus */
+.footer-title::before {
+  content: "";
+  display: inline-block;
+  width: 22px;
+  height: 14px;
+  margin-right: .5rem;
+  vertical-align: -1px;
+  background: url("../img/glyphs/eye-of-horus.svg") center / contain no-repeat;
+  opacity: .8;
+}
