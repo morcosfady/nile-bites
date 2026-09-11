@@ -74,8 +74,8 @@
        order server-side and the database is locked with Row Level Security.
        Leave financeOrderEndpoint empty to skip recording (WhatsApp only).
     ------------------------------------------------------------------- */
-    financeOrderEndpoint: "",       // TODO: https://YOUR-PROJECT-REF.supabase.co/functions/v1/create-order
-    financeAnonKey: "",             // TODO: Supabase anon (public) key
+    financeOrderEndpoint: "https://vvwunhcpxofvnjijemdb.supabase.co/functions/v1/create-order",
+    financeAnonKey: "sb_publishable_7gy7wfs9_FxaPBE_Ap5Spw_3SDZ2IEf",
     // Fallback while no endpoint exists: hand the order to WhatsApp so a
     // customer is never left with a dead button.
     orderFallbackWhatsApp: true
