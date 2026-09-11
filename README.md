@@ -14,7 +14,6 @@ static HTML/CSS/JS with no build step and no dependencies.
 |---|---|---|
 | Home | `index.html` | Cinematic hero, story intro, featured dishes, categories, bakery band, stats, gallery preview, reviews, CTA |
 | About | `about.html` | Who we are, six values, the family, stats, full guest book |
-| Our Story | `our-story.html` | Nine-point heritage timeline, craft breakdown, founder quote |
 | Menu | `menu.html` | Signature spotlight, live search, 9 category filters, 46 dishes, featured cards |
 | Reservations | `reservations.html` | Validated booking form, live opening hours, party picker, private dining |
 | Order Online | `order.html` | Full item list, category filters, persistent basket with live totals |
