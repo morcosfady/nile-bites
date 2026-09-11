@@ -190,7 +190,7 @@
   pointer-events: none;
 }
 .hero__ornament--l { left: -46px; top: 20%; }
-.hero__ornament--r { right: -46px; bottom: 15%; }
+.hero__ornament--r { right: -46px; top: 20%; }
 @media (max-width: 1100px) { .hero__ornament { display: none; } }
 
 /* 2. PAGE HERO ----------------------------------------------------------- */
