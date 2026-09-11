@@ -61,6 +61,9 @@
        Make webhook. See README for the exact payload shape.
     ------------------------------------------------------------------- */
     orderEndpoint: "",              // TODO: paste your endpoint URL
+    // WhatsApp Business number that receives orders (digits only, country
+    // code first). Used by the "Complete Order on WhatsApp" button.
+    orderWhatsappNumber: "17879684078",
     // Fallback while no endpoint exists: hand the order to WhatsApp so a
     // customer is never left with a dead button.
     orderFallbackWhatsApp: true

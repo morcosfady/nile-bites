@@ -463,59 +463,95 @@
     if (!ids.length) {
       list.innerHTML = '<p class="basket__empty">Your order is empty.<br>Add something warm.</p>';
     } else {
-      list.innerHTML = ids.map(function (id) {
-        var item = D.MENU.filter(function (m) { return m.id === id; })[0];
-        if (!item) return "";
-        var qty = basket[id];
-        subtotal += item.price * qty;
-        return '' +
-          '<div class="basket-item">' +
-            '<span class="basket-item__name">' + esc(item.name) + "</span>" +
-            '<span class="basket-item__price">' + money(item.price * qty) + "</span>" +
-            '<div class="qty">' +
-              '<button type="button" data-qty="-1" data-id="' + esc(id) + '" aria-label="Reduce quantity of ' + esc(item.name) + '">&minus;</button>' +
-              "<output>" + qty + "</output>" +
-              '<button type="button" data-qty="1" data-id="' + esc(id) + '" aria-label="Increase quantity of ' + esc(item.name) + '">+</button>' +
+      list.innerHTML =
+        '<div class="basket-head" aria-hidden="true"><span>Item</span><span>Qty</span><span>Each</span><span>Total</span></div>' +
+        ids.map(function (id) {
+          var item = D.MENU.filter(function (m) { return m.id === id; })[0];
+          if (!item) return "";
+          var qty = basket[id];
+          var line = item.price * qty;
+          subtotal += line;
+          return '' +
+            '<div class="basket-item">' +
+              '<span class="basket-item__name">' + esc(item.name) + "</span>" +
+              '<div class="qty" aria-label="Quantity">' +
+                '<button type="button" data-qty="-1" data-id="' + esc(id) + '" aria-label="Reduce quantity of ' + esc(item.name) + '">&minus;</button>' +
+                "<output>" + qty + "</output>" +
+                '<button type="button" data-qty="1" data-id="' + esc(id) + '" aria-label="Increase quantity of ' + esc(item.name) + '">+</button>' +
+              "</div>" +
+              '<span class="basket-item__each">' + money(item.price) + "</span>" +
+              '<span class="basket-item__price">' + money(line) + "</span>" +
               '<button type="button" class="remove" data-remove="' + esc(id) + '">Remove</button>' +
-            "</div>" +
-          "</div>";
-      }).join("");
+            "</div>";
+        }).join("");
     }
-
-    var mode = $("[data-mode][aria-pressed='true']");
-    var isDelivery = mode && mode.getAttribute("data-mode") === "delivery";
-    var fee = C.deliveryFee != null ? C.deliveryFee : 0;
-    var freeOver = C.freeDeliveryOver || 0;
-    var delivery = (isDelivery && subtotal > 0 && !(freeOver && subtotal >= freeOver)) ? fee : 0;
-    var service = Math.round(subtotal * ((C.servicePercent || 0) / 100));
 
     var set = function (sel, val) { var el = $(sel); if (el) el.textContent = money(val); };
     set("[data-subtotal]", subtotal);
-    set("[data-service]", service);
-    set("[data-delivery]", delivery);
-    set("[data-total]", subtotal + service + delivery);
 
-    var serviceRow = $("[data-service-row]");
-    if (serviceRow) serviceRow.hidden = !(C.servicePercent > 0);
+    updateCheckoutState(subtotal);
+  }
 
-    var min = C.minimumOrder || 0;
-    var belowMin = min > 0 && subtotal > 0 && subtotal < min;
+  /* --- Customer details ------------------------------------------------ */
+  var REQUIRED_FIELDS = ["name", "street", "city", "state", "zip"];
+
+  function readCustomer() {
+    var form = $("[data-checkout-form]");
+    if (!form) return null;
+    var c = {};
+    ["name", "street", "apt", "city", "state", "zip"].forEach(function (k) {
+      var el = form.elements[k];
+      c[k] = el ? el.value.trim() : "";
+    });
+    return c;
+  }
+
+  function customerComplete(c) {
+    if (!c) return false;
+    return REQUIRED_FIELDS.every(function (k) { return c[k].length > 0; }) &&
+           /^\d{5}(-\d{4})?$/.test(c.zip);
+  }
+
+  function updateCheckoutState(subtotal) {
+    var checkout = $("[data-checkout]");
+    if (!checkout) return;
+    if (subtotal == null) {
+      subtotal = Object.keys(basket).reduce(function (sum, id) {
+        var item = D.MENU.filter(function (m) { return m.id === id; })[0];
+        return sum + (item ? item.price * basket[id] : 0);
+      }, 0);
+    }
+    var customer = readCustomer();
+    var hasItems = subtotal > 0;
+    var detailsOk = customerComplete(customer);
+    var number = C.orderWhatsappNumber || C.whatsappNumber;
+
+    checkout.disabled = !(hasItems && detailsOk && number);
 
     var note = $("[data-basket-note]");
     if (note) {
-      if (belowMin) note.textContent = "Minimum order is " + money(min) + " — add " + money(min - subtotal) + " more.";
-      else if (!C.orderEndpoint && !C.orderFallbackWhatsApp) note.textContent = "Online ordering is not connected yet.";
-      else if (!C.orderEndpoint) note.textContent = "Your order is sent to us on WhatsApp, and we confirm before we start baking.";
-      else note.textContent = "We confirm every order before it goes in the oven.";
+      var min = C.minimumOrder || 0;
+      if (!hasItems) note.textContent = "Add a dish and fill in your details to continue.";
+      else if (!detailsOk) note.textContent = "Fill in your name and delivery address to continue.";
+      else if (min > 0 && subtotal < min) note.textContent = "Heads up: our usual minimum is " + money(min) + ". Send it anyway and we will confirm.";
+      else note.textContent = "WhatsApp opens with your order ready to send. We confirm the delivery fee before payment.";
     }
+  }
 
-    var checkout = $("[data-checkout]");
-    if (checkout) {
-      var canOrder = !!C.orderEndpoint || !!C.orderFallbackWhatsApp;
-      checkout.disabled = subtotal === 0 || belowMin || !canOrder;
-      checkout.textContent = C.orderEndpoint ? "Place Order"
-                           : (C.orderFallbackWhatsApp ? "Send Order on WhatsApp" : "Ordering Unavailable");
+  function initCheckoutForm() {
+    var form = $("[data-checkout-form]");
+    if (!form) return;
+    var saved = Store.read("customer", null);
+    if (saved) {
+      Object.keys(saved).forEach(function (k) { if (form.elements[k]) form.elements[k].value = saved[k]; });
     }
+    form.addEventListener("input", function () {
+      if (form.elements.state) form.elements.state.value = form.elements.state.value.toUpperCase();
+      Store.write("customer", readCustomer());
+      updateCheckoutState();
+    });
+    form.addEventListener("submit", function (e) { e.preventDefault(); });
+    updateCheckoutState();
   }
 
   function initOrderInteractions() {
@@ -536,13 +572,6 @@
       var rm = e.target.closest("[data-remove]");
       if (rm) { setQty(rm.getAttribute("data-remove"), 0); toast("Item removed"); return; }
 
-      var mode = e.target.closest("[data-mode]");
-      if (mode) {
-        $$("[data-mode]").forEach(function (b) { b.setAttribute("aria-pressed", String(b === mode)); });
-        renderBasket();
-        return;
-      }
-
       var checkout = e.target.closest("[data-checkout]");
       if (checkout) { submitOrder(checkout); }
     });
@@ -554,7 +583,6 @@
      real rather than showing a fake confirmation.
   ------------------------------------------------------------------------ */
   function buildOrder() {
-    var mode = $("[data-mode][aria-pressed='true']");
     var lines = Object.keys(basket).map(function (id) {
       var item = D.MENU.filter(function (m) { return m.id === id; })[0];
       if (!item) return null;
@@ -562,32 +590,49 @@
     }).filter(Boolean);
 
     var subtotal = lines.reduce(function (sum, l) { return sum + l.lineTotal; }, 0);
-    var isDelivery = mode && mode.getAttribute("data-mode") === "delivery";
-    var freeOver = C.freeDeliveryOver || 0;
-    var delivery = (isDelivery && !(freeOver && subtotal >= freeOver)) ? (C.deliveryFee || 0) : 0;
-    var service = Math.round(subtotal * ((C.servicePercent || 0) / 100));
 
     return {
       placedAt: new Date().toISOString(),
-      fulfilment: isDelivery ? "delivery" : "collection",
       currency: C.currency || "USD",
+      customer: readCustomer(),
       items: lines,
-      subtotal: subtotal,
-      service: service,
-      delivery: delivery,
-      total: subtotal + service + delivery
+      subtotal: subtotal
     };
   }
 
+  /* The WhatsApp message. Delivery is confirmed by the kitchen from the
+     address, so only the subtotal is quoted here. */
   function orderAsText(order) {
     var nl = "\n";
-    var lines = order.items.map(function (l) {
-      return l.qty + " x " + l.name + " - " + money(l.lineTotal);
+    var c = order.customer || {};
+    var address = [c.street, c.apt, c.city + ", " + c.state + " " + c.zip].filter(Boolean);
+
+    var items = order.items.map(function (l, i) {
+      return (i + 1) + ". " + l.name + nl +
+        "Quantity: " + l.qty + nl +
+        "Price: " + money(l.unitPrice) + nl +
+        "Total: " + money(l.lineTotal);
     });
-    return "Hi " + (C.businessName || "there") + "! I would like to order:" + nl + nl +
-      lines.join(nl) + nl + nl +
-      "Fulfilment: " + order.fulfilment + nl +
-      "Total: " + money(order.total);
+
+    return [
+      "👑 NEW PHARAOH’S BITES ORDER",
+      "",
+      "👤 CUSTOMER INFORMATION",
+      "Name: " + c.name,
+      "",
+      "📍 DELIVERY ADDRESS",
+      address.join(nl),
+      "",
+      "🛒 ORDER DETAILS",
+      "",
+      items.join(nl + nl),
+      "",
+      "💰 ORDER SUBTOTAL: " + money(order.subtotal),
+      "🚗 Delivery fee is not included and will be calculated based on the delivery address.",
+      "💳 Payment will be collected through Zelle or Venmo after the final total and delivery fee are confirmed.",
+      "",
+      "Please confirm my order and delivery fee. Thank you!"
+    ].join(nl);
   }
 
   function clearBasket() {
@@ -600,45 +645,19 @@
   function submitOrder(btn) {
     if (!Object.keys(basket).length) return;
     var order = buildOrder();
-
-    /* No backend yet — hand it to WhatsApp rather than faking success. */
-    if (!C.orderEndpoint) {
-      if (!C.orderFallbackWhatsApp || !C.whatsappNumber) {
-        toast("Ordering is not connected yet — please call us.");
-        return;
-      }
-      window.open("https://wa.me/" + C.whatsappNumber + "?text=" + encodeURIComponent(orderAsText(order)),
-                  "_blank", "noopener");
-      toast("Opening WhatsApp with your order…");
+    if (!customerComplete(order.customer)) {
+      toast("Please fill in your name and delivery address first.");
+      updateCheckoutState();
       return;
     }
+    var number = C.orderWhatsappNumber || C.whatsappNumber;
+    if (!number) { toast("Ordering is not connected yet — please call us."); return; }
 
-    var original = btn.textContent;
-    btn.disabled = true;
-    btn.textContent = "Sending…";
-
-    fetch(C.orderEndpoint, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(order)
-    })
-      .then(function (res) {
-        if (!res.ok) throw new Error("HTTP " + res.status);
-        toast("Order received — we will confirm shortly.");
-        clearBasket();
-      })
-      .catch(function () {
-        /* Never swallow the order: fall back to WhatsApp so it still reaches us. */
-        btn.disabled = false;
-        btn.textContent = original;
-        if (C.orderFallbackWhatsApp && C.whatsappNumber) {
-          toast("Could not reach the kitchen — sending on WhatsApp instead.");
-          window.open("https://wa.me/" + C.whatsappNumber + "?text=" + encodeURIComponent(orderAsText(order)),
-                      "_blank", "noopener");
-        } else {
-          toast("Could not send your order. Please call us.");
-        }
-      });
+    /* Standard wa.me deep link with the prefilled message; no API needed. */
+    var url = "https://wa.me/" + number + "?text=" + encodeURIComponent(orderAsText(order));
+    var win = window.open(url, "_blank", "noopener");
+    if (!win) window.location.href = url;   /* popup blocked: same tab */
+    toast("Opening WhatsApp with your order…");
   }
 
   /* --- Gallery + lightbox ---------------------------------------------- */
@@ -853,6 +872,8 @@
     renderBasket();
 
     initOrderInteractions();
+
+    initCheckoutForm();
     initHours();
     initForms();
     initParallax();
