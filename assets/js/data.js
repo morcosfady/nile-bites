@@ -36,32 +36,32 @@
     { id: "feteer-meshaltet", cat: "mains", name: "Feteer Meshaltet", ar: "فطير مشلتت",
       price: 14, special: true, featured: true,
       desc: "The original. Paper-thin dough stretched by hand, folded again and again with ghee between every layer, then baked until the top shatters.",
-      tags: ["House Special", "Vegetarian"], img: U + "1590137876181-2a5a7e340308" + Q },
+      tags: ["House Special", "Vegetarian"], img: U + "1787690376659-e5e7cd2ae452" + Q },
 
     { id: "feteer-beef", cat: "mains", name: "Feteer with Plant-Based Beef & Mozzarella", ar: "فطير محشي لحمة",
       price: 18, special: true, featured: true,
       desc: "The same hand-stretched layers, stuffed with seasoned plant-based ground beef and melted mozzarella, sealed and returned to the oven.",
-      tags: ["House Special", "Plant-Based"], img: U + "1513104890138-7c749659a591" + Q },
+      tags: ["House Special", "Plant-Based"], img: U + "1631875962715-e36c2d5189ca" + Q },
 
     { id: "macarona-bechamel", cat: "mains", name: "Macarona Béchamel Tray", ar: "صينية مكرونة بشاميل",
       price: 16, featured: true,
       desc: "Penne baked under a thick blanket of béchamel with plant-based ground beef through the middle, browned on top and cut into squares.",
-      tags: ["Plant-Based", "Tray"], img: U + "1551183053-bf91a1d81141" + Q },
+      tags: ["Plant-Based", "Tray"], img: U + "1620041631703-45ddcef3dae0" + Q },
 
     { id: "goulash-beef", cat: "mains", name: "Goulash Tray with Plant-Based Beef", ar: "صينية جلاش باللحمة",
       price: 16,
       desc: "Sheet after sheet of thin pastry layered with spiced plant-based ground beef and onion, brushed with ghee and baked golden.",
-      tags: ["Plant-Based", "Tray"], img: U + "1565299507177-b0ac66763828" + Q },
+      tags: ["Plant-Based", "Tray"], img: U + "1617806501736-fc7cab7c05bf" + Q },
 
     { id: "crepe-beef", cat: "mains", name: "Crepe with Ground Beef & Mozzarella", ar: "كريب باللحمة والموتزاريلا",
       price: 13,
       desc: "A soft crepe rolled around seasoned ground beef and mozzarella, griddled until the cheese pulls.",
-      tags: [], img: U + "1626700051175-6818013e1d4f" + Q },
+      tags: [], img: U + "1776820620219-c5079240a997" + Q },
 
     { id: "kofta-tray", cat: "mains", name: "Plant-Based Kofta Tray with Salsa & Rice", ar: "صينية كفتة بالصلصة والأرز",
       price: 35,
       desc: "Hand-shaped plant-based kofta baked in a rich tomato salsa with onion and garlic, served over a bed of Egyptian rice. Feeds a table.",
-      tags: ["Plant-Based", "Tray"], img: U + "1529042410759-befb1204b468" + Q },
+      tags: ["Plant-Based", "Tray"], img: U + "1763647818263-62a9256f097c" + Q },
 
     { id: "meatballs-spaghetti", cat: "mains", name: "Plant-Based Meatballs & Spaghetti", ar: "كرات لحم نباتية بالمكرونة",
       price: 25,
@@ -72,59 +72,59 @@
     { id: "lentil-soup", cat: "soups", name: "Lentil Soup", ar: "شوربة عدس",
       price: 7,
       desc: "Red lentils cooked down with onion, carrot and cumin until smooth, finished with lemon. Comes with bread on the side.",
-      tags: ["Vegan"], img: U + "1547592166-23ac45744acd" + Q },
+      tags: ["Vegan"], img: U + "1642497394078-4794e837019c" + Q },
 
     /* ---------------- SWEET ---------------- */
     { id: "goulash-nuts", cat: "desserts", name: "Goulash Tray with Nuts", ar: "صينية جلاش بالمكسرات",
       price: 15, special: true, featured: true,
       desc: "Layered pastry packed with walnut, almond and pistachio, baked crisp and soaked in syrup the moment it leaves the oven.",
-      tags: ["House Special", "Contains Nuts"], img: U + "1519915028121-7d3463d20b13" + Q },
+      tags: ["House Special", "Contains Nuts"], img: U + "1594981449006-3bb015dd305a" + Q },
 
     { id: "mini-feteer-sweet", cat: "desserts", name: "Mini Feteer, Nutella or Pistachio", ar: "فطير صغير حلو",
       price: 11, featured: true,
       desc: "A palm-sized feteer with all its layers intact, finished with Nutella or pistachio sauce. Choose when you order.",
-      tags: ["Vegetarian"], img: U + "1509365465985-25d11c17e812" + Q },
+      tags: ["Vegetarian"], img: U + "1669630367800-b2c3ae70528e" + Q },
 
     { id: "crepe-nutella", cat: "desserts", name: "Crepe with Nutella", ar: "كريب بالنوتيلا",
       price: 9,
       desc: "Warm crepe folded over Nutella until it melts through.",
-      tags: ["Vegetarian"], img: U + "1587314168485-3236d6710814" + Q },
+      tags: ["Vegetarian"], img: U + "1723029343498-b061d6594a42" + Q },
 
     { id: "crepe-pistachio", cat: "desserts", name: "Crepe with Pistachio Sauce", ar: "كريب بالفستق",
       price: 10,
       desc: "The same warm crepe with a thick pistachio cream, dusted with crushed pistachio.",
-      tags: ["Vegetarian", "Contains Nuts"], img: U + "1567620905732-2d1ec7ab7445" + Q },
+      tags: ["Vegetarian", "Contains Nuts"], img: U + "1777891258086-52a41e4477f6" + Q },
 
     { id: "round-cake", cat: "desserts", name: "Small Round Cake", ar: "كيكة صغيرة",
       price: 12,
       desc: "A small home-style cake, baked fresh and iced simply. Ask what today's is.",
-      tags: ["Vegetarian"], img: U + "1578985545062-69928b1d9587" + Q },
+      tags: ["Vegetarian"], img: U + "1602351447937-745cb720612f" + Q },
 
     { id: "chocolate-pudding", cat: "desserts", name: "Chocolate Pudding", ar: "بودينج شوكولاتة",
       price: 7,
       desc: "Set dark chocolate pudding, chilled, with cream folded through the top.",
-      tags: ["Vegetarian"], img: U + "1541783245831-57d6fb0926d3" + Q },
+      tags: ["Vegetarian"], img: U + "1673551494277-92204546b504" + Q },
 
     { id: "banana-pudding", cat: "desserts", name: "Banana Pudding", ar: "بودينج موز",
       price: 7,
       desc: "Layers of vanilla cream, banana and biscuit, left to soften overnight.",
-      tags: ["Vegetarian"], img: U + "1563805042-7684c019e1cb" + Q },
+      tags: ["Vegetarian"], img: U + "1639330842151-8a92eb332b2d" + Q },
 
     { id: "creme-caramel", cat: "desserts", name: "Crème Caramel Flan", ar: "كريم كراميل",
       price: 8,
       desc: "Baked custard turned out under its own caramel. Cold, wobbling, and gone in a minute.",
-      tags: ["Vegetarian"], img: U + "1488477181946-6428a0291777" + Q },
+      tags: ["Vegetarian"], img: U + "1653988354010-39637252a2db" + Q },
 
     /* ---------------- ON THE SIDE ---------------- */
     { id: "white-cheese", cat: "sides", name: "Egyptian White Cheese", ar: "جبنة بيضاء",
       price: 6, special: true, featured: true,
       desc: "Salty, crumbling domiati — the thing every Egyptian reaches for the moment the feteer is torn open.",
-      tags: ["House Special", "Vegetarian"], img: U + "1452195100486-9cc805987862" + Q },
+      tags: ["House Special", "Vegetarian"], img: U + "1559561853-08451507cbe7" + Q },
 
     { id: "black-honey", cat: "sides", name: "Black Honey", ar: "عسل أسود",
       price: 5,
       desc: "Sugarcane molasses, dark and mineral. The oldest sweet in the country, and the right partner for plain feteer.",
-      tags: ["Vegan"], img: U + "1471943311424-646960669fbc" + Q },
+      tags: ["Vegan"], img: U + "1779120708355-7a41581b4584" + Q },
 
     { id: "white-honey", cat: "sides", name: "White Honey", ar: "عسل أبيض",
       price: 5,
@@ -134,29 +134,29 @@
     { id: "tahini", cat: "sides", name: "Tahini", ar: "طحينة",
       price: 5,
       desc: "Stone-ground sesame, loosened with lemon. Best stirred into the black honey until the two go pale.",
-      tags: ["Vegan"], img: U + "1590301157890-4810ed352733" + Q },
+      tags: ["Vegan"], img: U + "1747932984398-dd52d84886d6" + Q },
 
     /* ---------------- DRINKS ---------------- */
     { id: "protein-shake", cat: "drinks", name: "House Special Protein Shake", ar: "مشروب البروتين",
       price: 9, special: true, featured: true,
       desc: "Twenty-five grams of protein, blended thick and cold. Our own recipe — nothing about it tastes like a supplement.",
-      tags: ["House Special", "25g Protein"], img: U + "1615478503562-ec2d8aa0e24e" + Q }
+      tags: ["House Special", "25g Protein"], img: U + "1542444592-0d5997f202eb" + Q }
   ];
 
   /* Gallery ----------------------------------------------------------- */
   var GALLERY = [
-    { cat: "Feteer",  title: "Layers, pulled apart hot",        img: U + "1590137876181-2a5a7e340308" + QL },
-    { cat: "Kitchen", title: "Stretching the dough",            img: U + "1556909212-d5b604d0c90d" + QL },
-    { cat: "Sweet",   title: "Goulash with nuts",               img: U + "1519915028121-7d3463d20b13" + QL },
-    { cat: "Sweet",   title: "Crepes, folded warm",             img: U + "1587314168485-3236d6710814" + QL },
-    { cat: "Trays",   title: "Macarona béchamel",               img: U + "1551183053-bf91a1d81141" + QL },
-    { cat: "Kitchen", title: "Hands that know the dough",       img: U + "1577219491135-ce391730fb2c" + QL },
-    { cat: "Kitchen", title: "Out of the oven",                 img: U + "1517433670267-08bbd4be890f" + QL },
-    { cat: "Sides",   title: "White cheese and honey",          img: U + "1452195100486-9cc805987862" + QL },
-    { cat: "Sweet",   title: "Something cold to finish",        img: U + "1488477181946-6428a0291777" + QL },
-    { cat: "Feteer",  title: "Golden, straight from the stone", img: U + "1509440159596-0249088772ff" + QL },
+    { cat: "Feteer",  title: "Layers, pulled apart hot",        img: U + "1759302307381-bdccf7b35e5d" + QL },
+    { cat: "Kitchen", title: "Stretching the dough",            img: U + "1754394483922-4d3a10cc6187" + QL },
+    { cat: "Sweet",   title: "Goulash with nuts",               img: U + "1640040520679-2ace58742f22" + QL },
+    { cat: "Sweet",   title: "Crepes, folded warm",             img: U + "1710024893493-1f2bd381f47c" + QL },
+    { cat: "Trays",   title: "Macarona béchamel",               img: U + "1620041631703-45ddcef3dae0" + QL },
+    { cat: "Kitchen", title: "Hands that know the dough",       img: U + "1777315387799-eba7be5422b2" + QL },
+    { cat: "Kitchen", title: "Out of the oven",                 img: U + "1777315388484-f999eb67d74c" + QL },
+    { cat: "Sides",   title: "White cheese and honey",          img: U + "1777891257739-5d0f6531a508" + QL },
+    { cat: "Sweet",   title: "Something cold to finish",        img: U + "1653988354010-39637252a2db" + QL },
+    { cat: "Feteer",  title: "Golden, straight from the stone", img: U + "1787690376659-e5e7cd2ae452" + QL },
     { cat: "Sides",   title: "Honey, poured cold",              img: U + "1558642452-9d2a7deb7f62" + QL },
-    { cat: "Trays",   title: "Cut into squares",                img: U + "1565299507177-b0ac66763828" + QL }
+    { cat: "Trays",   title: "Cut into squares",                img: U + "1594981449006-3bb015dd305a" + QL }
   ];
 
   /* PLACEHOLDER reviews - invented, not real customers. Replace before launch. */
