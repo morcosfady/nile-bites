@@ -265,6 +265,7 @@
   function syncBasketBadge() {
     var n = basketCount();
     $$("[data-basket-count]").forEach(function (el) { el.textContent = n ? String(n) : "0"; });
+    $$("[data-basket-fab]").forEach(function (el) { el.hidden = n === 0; });
   }
 
   /* Pharaoh mark for house specials. `label` renders an accessible name once
@@ -307,19 +308,25 @@
 
   function menuRow(item) {
     var pills = (item.tags || []).map(function (t) {
-      var cls = /vegan|vegetarian/i.test(t) ? "pill pill--veg" : (/signature|chef|tasting/i.test(t) ? "pill pill--gold" : "pill");
+      var cls = /vegan|vegetarian/i.test(t) ? "pill pill--veg" : (/signature|chef|tasting|special/i.test(t) ? "pill pill--gold" : "pill");
       return '<span class="' + cls + '">' + esc(t) + "</span>";
     }).join("");
     return '' +
-      '<div class="menu-row" data-reveal>' +
-        '<div class="menu-row__top">' +
-          '<span class="menu-row__name">' + (item.special ? pharaoh(true) : "") + esc(item.name) + "</span>" +
-          '<span class="menu-row__dots" aria-hidden="true"></span>' +
-          '<span class="menu-row__price">' + item.price + "</span>" +
+      '<article class="order-item menu-item" data-reveal>' +
+        '<div class="media media--1x1"><img data-src="' + esc(item.img) + '" alt="' + esc(item.name) + '" loading="lazy" decoding="async" width="200" height="200"></div>' +
+        "<div><h3>" + (item.special ? pharaoh(true) : "") + esc(item.name) +
+          ' <span class="dish__ar" lang="ar" dir="rtl">' + esc(item.ar) + "</span></h3>" +
+          "<p>" + esc(item.desc) + "</p>" +
+          (pills ? '<div class="menu-item__meta">' + pills + "</div>" : "") +
         "</div>" +
-        '<p class="menu-row__desc"><span lang="ar" dir="rtl" style="color:var(--gold);opacity:.7">' + esc(item.ar) + "</span> — " + esc(item.desc) + "</p>" +
-        (pills ? '<div class="menu-row__meta">' + pills + "</div>" : "") +
-      "</div>";
+        '<div class="order-item__side">' +
+          '<span class="order-item__price">' + money(item.price) + "</span>" +
+          '<div class="flex gap-2 items-center">' +
+            '<button class="fav" type="button" data-fav="' + esc(item.id) + '" data-name="' + esc(item.name) + '" aria-pressed="false">' + SVG_HEART + "</button>" +
+            '<button class="btn btn--sm btn--gold" type="button" data-add="' + esc(item.id) + '" data-name="' + esc(item.name) + '">Add</button>' +
+          "</div>" +
+        "</div>" +
+      "</article>";
   }
 
   /* --- Featured dishes (home) ------------------------------------------ */
@@ -347,7 +354,7 @@
             "<div><h2>" + esc(cat.name) + "</h2><p>" + esc(cat.blurb) + "</p></div>" +
             '<span class="menu-group__count"><span data-group-count>' + items.length + "</span> dishes</span>" +
           "</div>" +
-          '<div class="menu-rows" data-stagger="60">' + items.map(menuRow).join("") + "</div>" +
+          '<div class="menu-items" data-stagger="40">' + items.map(menuRow).join("") + "</div>" +
         "</section>";
     }).join("");
 
@@ -366,7 +373,7 @@
       $$(".menu-group", host).forEach(function (group) {
         var catMatch = state.cat === "all" || group.getAttribute("data-group") === state.cat;
         var shown = 0;
-        $$(".menu-row", group).forEach(function (row) {
+        $$(".menu-item", group).forEach(function (row) {
           var text = row.textContent.toLowerCase();
           var hit = catMatch && (!state.q || text.indexOf(state.q) > -1);
           row.hidden = !hit;
